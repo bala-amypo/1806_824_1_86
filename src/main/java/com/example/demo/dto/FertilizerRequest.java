@@ -1,3 +1,3 @@
-class FertilizerRequest{
+public class FertilizerRequest{
     
 }

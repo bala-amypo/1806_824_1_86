@@ -1,3 +1,3 @@
-class AuthResponce{
+public class AuthResponce{
     
 }

@@ -1,3 +1,3 @@
-class CropRequest{
+public class CropRequest{
     
 }

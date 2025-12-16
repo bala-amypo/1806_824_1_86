@@ -1,3 +1,3 @@
-class FarmRequest{
+pubic class FarmRequest{
     
 }
