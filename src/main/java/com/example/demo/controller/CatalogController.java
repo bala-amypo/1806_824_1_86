@@ -1,3 +1,3 @@
-public class catalogController{
+public class CatalogController{
     
 }

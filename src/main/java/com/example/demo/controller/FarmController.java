@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.FarmRequest;
-import com.example.demo.service.impl.FarmServiceImpl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
