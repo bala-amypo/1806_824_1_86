@@ -58,4 +58,14 @@ public class Suggestion {
     }
 
     public void setFarm(Farm farm) {
-        this.farm =
+        this.farm = farm;
+    }
+
+    public void setSuggestedCrops(String suggestedCrops) {
+        this.suggestedCrops = suggestedCrops;
+    }
+
+    public void setSuggestedFertilizers(String suggestedFertilizers) {
+        this.suggestedFertilizers = suggestedFertilizers;
+    }
+}
