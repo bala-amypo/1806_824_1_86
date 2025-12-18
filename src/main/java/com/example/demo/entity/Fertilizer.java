@@ -8,8 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
-import org.springframework.web.server.BadRequestException;
-
 @Entity
 public class Fertilizer {
 
@@ -18,7 +16,6 @@ public class Fertilizer {
     private Long id;
 
     private String name;
-
     private String npkRatio;
 
     @Column(length = 500)
@@ -27,51 +24,14 @@ public class Fertilizer {
     public Fertilizer() {
     }
 
-    public Fertilizer(Long id, String name, String npkRatio, String recommendedForCrops) {
-        this.id = id;
-        this.name = name;
-        this.npkRatio = npkRatio;
-        this.recommendedForCrops = recommendedForCrops;
-    }
-
     @PrePersist
     @PreUpdate
     public void validateNpk() {
 
         if (!npkRatio.matches("\\d+-\\d+-\\d+")) {
-            throw new BadRequestException("NPK");
+            throw new IllegalArgumentException("NPK");
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNpkRatio() {
-        return npkRatio;
-    }
-
-    public void setNpkRatio(String npkRatio) {
-        this.npkRatio = npkRatio;
-    }
-
-    public String getRecommendedForCrops() {
-        return recommendedForCrops;
-    }
-
-    public void setRecommendedForCrops(String recommendedForCrops) {
-        this.recommendedForCrops = recommendedForCrops;
-    }
+    // getters & setters
 }
