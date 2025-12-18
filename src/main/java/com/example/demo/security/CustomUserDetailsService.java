@@ -1,13 +1,14 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import java.util.Collections;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -29,8 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                Collections.singleton(() ->
-                        user.getRole())
+                Collections.emptyList()
         );
     }
 }
