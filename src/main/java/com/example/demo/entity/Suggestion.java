@@ -9,20 +9,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Suggestion {
 
     @Id
@@ -41,8 +30,56 @@ public class Suggestion {
 
     private LocalDateTime createdAt;
 
+    public Suggestion() {
+    }
+
+    public Suggestion(Long id, Farm farm, String suggestedCrops,
+                      String suggestedFertilizers, LocalDateTime createdAt) {
+        this.id = id;
+        this.farm = farm;
+        this.suggestedCrops = suggestedCrops;
+        this.suggestedFertilizers = suggestedFertilizers;
+        this.createdAt = createdAt;
+    }
+
     @PrePersist
     public void setCreatedAt() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
+    public String getSuggestedCrops() {
+        return suggestedCrops;
+    }
+
+    public void setSuggestedCrops(String suggestedCrops) {
+        this.suggestedCrops = suggestedCrops;
+    }
+
+    public String getSuggestedFertilizers() {
+        return suggestedFertilizers;
+    }
+
+    public void setSuggestedFertilizers(String suggestedFertilizers) {
+        this.suggestedFertilizers = suggestedFertilizers;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

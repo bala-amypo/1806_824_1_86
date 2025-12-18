@@ -9,18 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Farm {
 
     @Id
@@ -39,6 +28,18 @@ public class Farm {
 
     private String season;
 
+    public Farm() {
+    }
+
+    public Farm(Long id, User owner, String name, Double soilPH, Double waterLevel, String season) {
+        this.id = id;
+        this.owner = owner;
+        this.name = name;
+        this.soilPH = soilPH;
+        this.waterLevel = waterLevel;
+        this.season = season;
+    }
+
     @PrePersist
     @PreUpdate
     public void validateFarm() {
@@ -52,5 +53,53 @@ public class Farm {
                 && !season.equalsIgnoreCase("Summer")) {
             throw new IllegalArgumentException("Invalid season");
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getSoilPH() {
+        return soilPH;
+    }
+
+    public void setSoilPH(Double soilPH) {
+        this.soilPH = soilPH;
+    }
+
+    public Double getWaterLevel() {
+        return waterLevel;
+    }
+
+    public void setWaterLevel(Double waterLevel) {
+        this.waterLevel = waterLevel;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
     }
 }
