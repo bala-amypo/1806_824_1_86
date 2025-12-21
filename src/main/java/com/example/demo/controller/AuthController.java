@@ -1,61 +1,56 @@
 package com.example.demo.controller;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.dto.*;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
+import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtProvider;
+    private final PasswordEncoder encoder;
 
     public AuthController(UserService userService,
-                          JwtTokenProvider jwtTokenProvider,
-                          PasswordEncoder passwordEncoder) {
+                          JwtTokenProvider jwtProvider,
+                          PasswordEncoder encoder) {
         this.userService = userService;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordEncoder = passwordEncoder;
+        this.jwtProvider = jwtProvider;
+        this.encoder = encoder;
     }
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterRequest req) {
-
         User user = User.builder()
                 .name(req.getName())
                 .email(req.getEmail())
                 .password(req.getPassword())
                 .build();
-
         return userService.register(user);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest req) {
-
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
         User user = userService.findByEmail(req.getEmail());
-
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        if (!encoder.matches(req.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String token = jwtTokenProvider.createToken(
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+        String token = jwtProvider.createToken(
+                user.getId(), user.getEmail(), user.getRole());
 
-        return AuthResponse.builder()
-                .token(token)
-                .userId(user.getId())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .build();
+        return ResponseEntity.ok(
+                AuthResponse.builder()
+                        .token(token)
+                        .userId(user.getId())
+                        .email(user.getEmail())
+                        .role(user.getRole())
+                        .build()
+        );
     }
 }

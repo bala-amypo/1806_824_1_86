@@ -1,10 +1,5 @@
 package com.example.demo.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 import com.example.demo.exception.BadRequestException;
@@ -12,12 +7,20 @@ import com.example.demo.repository.CropRepository;
 import com.example.demo.repository.FertilizerRepository;
 import com.example.demo.service.CatalogService;
 import com.example.demo.util.ValidationUtil;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
     private final CropRepository cropRepository;
     private final FertilizerRepository fertilizerRepository;
+
+    private static final Pattern NPK_PATTERN =
+            Pattern.compile("\\d+-\\d+-\\d+");
 
     public CatalogServiceImpl(CropRepository cropRepository,
                               FertilizerRepository fertilizerRepository) {
@@ -27,9 +30,8 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Crop addCrop(Crop crop) {
-
         if (crop.getSuitablePHMin() > crop.getSuitablePHMax()) {
-            throw new BadRequestException("PH min greater than max");
+            throw new BadRequestException("PH min must be <= PH max");
         }
 
         if (!ValidationUtil.validSeason(crop.getSeason())) {
@@ -41,11 +43,9 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Fertilizer addFertilizer(Fertilizer fertilizer) {
-
-        if (!fertilizer.getNpkRatio().matches("\\d+-\\d+-\\d+")) {
+        if (!NPK_PATTERN.matcher(fertilizer.getNpkRatio()).matches()) {
             throw new BadRequestException("Invalid NPK format");
         }
-
         return fertilizerRepository.save(fertilizer);
     }
 
@@ -56,15 +56,16 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-
-        List<Fertilizer> result = new ArrayList<>();
-
-        for (String crop : cropNames) {
-            result.addAll(
-                fertilizerRepository.findByRecommendedForCropsContaining(crop)
-            );
+        if (cropNames == null || cropNames.isEmpty()) {
+            return List.of();
         }
 
-        return result;
+        return fertilizerRepository.findAll()
+                .stream()
+                .filter(f ->
+                        Arrays.stream(f.getRecommendedForCrops().split(","))
+                                .map(String::trim)
+                                .anyMatch(cropNames::contains))
+                .collect(Collectors.toList());
     }
 }
