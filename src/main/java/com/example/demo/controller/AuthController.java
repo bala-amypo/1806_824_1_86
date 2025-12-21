@@ -1,18 +1,30 @@
-package com.example.demo.service;
-
-import org.springframework.stereotype.Service;
+package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.service.AuthService;
 
-@Service
-public class AuthService {
+import org.springframework.web.bind.annotation.*;
 
-    public void register(RegisterRequest request) {
-        // dummy implementation
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-    public String login(AuthRequest request) {
-        return "dummy-token";
+    @PostMapping("/register")
+    public String register(@RequestBody RegisterRequest request) {
+        authService.register(request);
+        return "User registered";
+    }
+
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody AuthRequest request) {
+        return new AuthResponse(authService.login(request));
     }
 }
