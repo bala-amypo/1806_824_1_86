@@ -1,56 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.*;
-import com.example.demo.entity.User;
-import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.service.UserService;
-import org.springframework.http.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.demo.dto.FarmRequest;
+import com.example.demo.entity.Farm;
+import com.example.demo.service.FarmService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/farms")
+public class FarmController {
 
-    private final UserService userService;
-    private final JwtTokenProvider jwtProvider;
-    private final PasswordEncoder encoder;
+    private final FarmService farmService;
 
-    public AuthController(UserService userService,
-                          JwtTokenProvider jwtProvider,
-                          PasswordEncoder encoder) {
-        this.userService = userService;
-        this.jwtProvider = jwtProvider;
-        this.encoder = encoder;
+    public FarmController(FarmService farmService) {
+        this.farmService = farmService;
     }
 
-    @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest req) {
-        User user = User.builder()
-                .name(req.getName())
-                .email(req.getEmail())
-                .password(req.getPassword())
+    @PostMapping
+    public Farm createFarm(@RequestBody FarmRequest request,
+                           Authentication authentication) {
+
+        Long ownerId = (Long) authentication.getPrincipal();
+
+        Farm farm = Farm.builder()
+                .name(request.getName())
+                .soilPH(request.getSoilPH())
+                .waterLevel(request.getWaterLevel())
+                .season(request.getSeason())
                 .build();
-        return userService.register(user);
+
+        return farmService.createFarm(farm, ownerId);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-        User user = userService.findByEmail(req.getEmail());
-        if (!encoder.matches(req.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    @GetMapping
+    public List<Farm> listFarms(Authentication authentication) {
+        Long ownerId = (Long) authentication.getPrincipal();
+        return farmService.getFarmsByOwner(ownerId);
+    }
 
-        String token = jwtProvider.createToken(
-                user.getId(), user.getEmail(), user.getRole());
-
-        return ResponseEntity.ok(
-                AuthResponse.builder()
-                        .token(token)
-                        .userId(user.getId())
-                        .email(user.getEmail())
-                        .role(user.getRole())
-                        .build()
-        );
+    @GetMapping("/{farmId}")
+    public Farm getFarm(@PathVariable Long farmId) {
+        return farmService.getFarmById(farmId);
     }
 }
