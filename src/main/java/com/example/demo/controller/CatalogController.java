@@ -5,18 +5,13 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.dto.CropRequest;
-import com.example.demo.dto.FertilizerRequest;
+import com.example.demo.dto.*;
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 import com.example.demo.service.CatalogService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping("/catalog")
-@Tag(name = "Catalog")
 public class CatalogController {
 
     private final CatalogService catalogService;
@@ -25,33 +20,54 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
 
-    // ADMIN
-    @Operation(summary = "Add crop (ADMIN)")
+    private void checkAdmin(Authentication auth) {
+        if (auth.getAuthorities().stream()
+                .noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            throw new RuntimeException("Access denied");
+        }
+    }
+
     @PostMapping("/crop")
-    public Crop addCrop(@RequestBody CropRequest req, Authentication auth) {
-        return catalogService.addCrop(req, auth);
+    public Crop addCrop(@RequestBody CropRequest req,
+                        Authentication auth) {
+
+        checkAdmin(auth);
+
+        Crop crop = Crop.builder()
+                .name(req.getName())
+                .suitablePHMin(req.getSuitablePHMin())
+                .suitablePHMax(req.getSuitablePHMax())
+                .requiredWater(req.getRequiredWater())
+                .season(req.getSeason())
+                .build();
+
+        return catalogService.addCrop(crop);
     }
 
-    // ADMIN
-    @Operation(summary = "Add fertilizer (ADMIN)")
     @PostMapping("/fertilizer")
-    public Fertilizer addFertilizer(@RequestBody FertilizerRequest req, Authentication auth) {
-        return catalogService.addFertilizer(req, auth);
+    public Fertilizer addFertilizer(@RequestBody FertilizerRequest req,
+                                    Authentication auth) {
+
+        checkAdmin(auth);
+
+        Fertilizer fertilizer = Fertilizer.builder()
+                .name(req.getName())
+                .npkRatio(req.getNpkRatio())
+                .recommendedForCrops(req.getRecommendedForCrops())
+                .build();
+
+        return catalogService.addFertilizer(fertilizer);
     }
 
-    @Operation(summary = "Get suitable crops")
     @GetMapping("/crops/suitable")
-    public List<Crop> suitableCrops(
-            @RequestParam double ph,
-            @RequestParam String water,
-            @RequestParam String season) {
-
+    public List<Crop> suitableCrops(@RequestParam Double ph,
+                                    @RequestParam Double water,
+                                    @RequestParam String season) {
         return catalogService.findSuitableCrops(ph, water, season);
     }
 
-    @Operation(summary = "Get fertilizers by crop")
     @GetMapping("/fertilizers/by-crop")
-    public List<Fertilizer> fertilizersByCrop(@RequestParam String name) {
-        return catalogService.findFertilizersByCrop(name);
+    public List<Fertilizer> fertilizers(@RequestParam String name) {
+        return catalogService.findFertilizersForCrops(List.of(name));
     }
 }
