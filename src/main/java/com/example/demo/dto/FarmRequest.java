@@ -1,23 +1,14 @@
 package com.example.demo.dto;
 
+import lombok.*;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FarmRequest {
-
     private String name;
-    private double area;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
+    private Double soilPH;
+    private Double waterLevel;
+    private String season;
 }
