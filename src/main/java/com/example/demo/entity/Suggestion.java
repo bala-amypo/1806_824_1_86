@@ -21,7 +21,6 @@ public class Suggestion {
     private Farm farm;
 
     private String suggestedCrops;
-
     private String suggestedFertilizers;
 
     private LocalDateTime createdAt;

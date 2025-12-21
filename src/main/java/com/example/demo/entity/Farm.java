@@ -15,14 +15,12 @@ public class Farm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User owner;
-
     private String name;
-
     private Double soilPH;
-
     private Double waterLevel;
-
     private String season;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 }
