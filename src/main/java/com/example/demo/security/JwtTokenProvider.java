@@ -1,61 +1,43 @@
 package com.example.demo.security;
 
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Value;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
-import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expiration}")
-    private long expiration;
-
-    private SecretKey getKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
-    }
+    private static final String SECRET_KEY = "demo-secret-key-12345";
+    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 1 day
 
     public String createToken(Long userId, String email, String role) {
-
-        Claims claims = Jwts.claims();
-        claims.put("userId", userId);
-        claims.put("role", role);
-
         return Jwts.builder()
-                .setClaims(claims)
                 .setSubject(email)
+                .claim("userId", userId)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getKey())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
-    public Claims getClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getKey())
-                .build()
+    public Claims validateToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
     public String getEmail(String token) {
-        return getClaims(token).getSubject();
+        return validateToken(token).getSubject();
     }
 
     public Long getUserId(String token) {
-        return getClaims(token).get("userId", Long.class);
+        return validateToken(token).get("userId", Long.class);
     }
 
     public String getRole(String token) {
-        return getClaims(token).get("role", String.class);
+        return validateToken(token).get("role", String.class);
     }
 }
