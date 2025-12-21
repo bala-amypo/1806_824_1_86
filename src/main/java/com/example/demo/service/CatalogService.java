@@ -2,30 +2,16 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.dto.CropRequest;
-import com.example.demo.dto.FertilizerRequest;
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 
-@Service
-public class CatalogService {
+public interface CatalogService {
 
-    public Crop addCrop(CropRequest req, Authentication auth) {
-        return new Crop();
-    }
+    Crop addCrop(Crop crop);
 
-    public Fertilizer addFertilizer(FertilizerRequest req, Authentication auth) {
-        return new Fertilizer();
-    }
+    Fertilizer addFertilizer(Fertilizer fertilizer);
 
-    public List<Crop> findSuitableCrops(double ph, String water, String season) {
-        return List.of();
-    }
+    List<Crop> findSuitableCrops(Double ph, Double waterLevel, String season);
 
-    public List<Fertilizer> findFertilizersByCrop(String name) {
-        return List.of();
-    }
+    List<Fertilizer> findFertilizersForCrops(List<String> cropNames);
 }

@@ -1,21 +1,14 @@
 package com.example.demo.service;
 
 import java.util.List;
-import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.Suggestion;
 
-@Service
-public class SuggestionService {
+public interface SuggestionService {
 
-    public Suggestion generateSuggestion(Long farmId) {
-        return new Suggestion();
-    }
+    Suggestion generateSuggestion(Long farmId);
 
-    public Suggestion getSuggestion(Long suggestionId) {
-        return new Suggestion();
-    }
+    Suggestion getSuggestion(Long suggestionId);
 
-    public List<Suggestion> listFarmSuggestions(Long farmId) {
-        return List.of();
-    }
+    List<Suggestion> getSuggestionsByFarm(Long farmId);
 }

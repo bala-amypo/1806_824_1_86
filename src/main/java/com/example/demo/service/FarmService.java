@@ -2,24 +2,13 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.dto.FarmRequest;
 import com.example.demo.entity.Farm;
 
-@Service
-public class FarmService {
+public interface FarmService {
 
-    public Farm createFarm(FarmRequest req, Authentication auth) {
-        return new Farm();
-    }
+    Farm createFarm(Farm farm, Long ownerId);
 
-    public List<Farm> listFarms(Authentication auth) {
-        return List.of();
-    }
+    List<Farm> getFarmsByOwner(Long ownerId);
 
-    public Farm getFarm(Long farmId) {
-        return new Farm();
-    }
+    Farm getFarmById(Long farmId);
 }
