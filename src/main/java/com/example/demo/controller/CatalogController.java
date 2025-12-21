@@ -52,7 +52,6 @@ public class CatalogController {
 
         Fertilizer fertilizer = Fertilizer.builder()
                 .name(req.getName())
-                .npkRatio(req.getNpkRatio())
                 .recommendedForCrops(req.getRecommendedForCrops())
                 .build();
 
