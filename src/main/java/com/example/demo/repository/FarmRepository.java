@@ -1,10 +1,9 @@
 package com.example.demo.repository;
 
-import java.util.List;
-
+import com.example.demo.entity.Farm;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.entity.Farm;
+import java.util.List;
 
 public interface FarmRepository extends JpaRepository<Farm, Long> {
 
