@@ -29,10 +29,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String header = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+            String token = authHeader.substring(7);
 
             try {
                 Claims claims = jwtTokenProvider.validateToken(token);
@@ -51,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .setAuthentication(authentication);
 
             } catch (Exception ex) {
-                // Invalid or expired token → leave unauthenticated
                 SecurityContextHolder.clearContext();
             }
         }
