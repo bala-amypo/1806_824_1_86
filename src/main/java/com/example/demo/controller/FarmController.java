@@ -9,12 +9,8 @@ import com.example.demo.dto.FarmRequest;
 import com.example.demo.entity.Farm;
 import com.example.demo.service.FarmService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping("/farms")
-@Tag(name = "Farms")
 public class FarmController {
 
     private final FarmService farmService;
@@ -23,24 +19,30 @@ public class FarmController {
         this.farmService = farmService;
     }
 
-    // POST /farms
-    @Operation(summary = "Add new farm")
     @PostMapping
-    public Farm createFarm(@RequestBody FarmRequest req, Authentication auth) {
-        return farmService.createFarm(req, auth);
+    public Farm createFarm(@RequestBody FarmRequest req,
+                           Authentication auth) {
+
+        Long ownerId = (Long) auth.getPrincipal();
+
+        Farm farm = Farm.builder()
+                .name(req.getName())
+                .soilPH(req.getSoilPH())
+                .waterLevel(req.getWaterLevel())
+                .season(req.getSeason())
+                .build();
+
+        return farmService.createFarm(farm, ownerId);
     }
 
-    // GET /farms
-    @Operation(summary = "List user farms")
     @GetMapping
     public List<Farm> listFarms(Authentication auth) {
-        return farmService.listFarms(auth);
+        Long ownerId = (Long) auth.getPrincipal();
+        return farmService.getFarmsByOwner(ownerId);
     }
 
-    // GET /farms/{farmId}
-    @Operation(summary = "Get farm details")
     @GetMapping("/{farmId}")
     public Farm getFarm(@PathVariable Long farmId) {
-        return farmService.getFarm(farmId);
+        return farmService.getFarmById(farmId);
     }
 }
