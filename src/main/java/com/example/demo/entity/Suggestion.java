@@ -19,7 +19,7 @@ public class Suggestion {
 
     private LocalDateTime createdAt;
 
-    // ---------- Constructors ----------
+    
     public Suggestion() {}
 
     public Suggestion(Long id, Farm farm, String suggestedCrops,
@@ -36,7 +36,7 @@ public class Suggestion {
         this.createdAt = LocalDateTime.now();
     }
 
-    // ---------- Getters & Setters ----------
+    
     public Long getId() {
         return id;
     }
@@ -73,7 +73,7 @@ public class Suggestion {
         this.suggestedFertilizers = suggestedFertilizers;
     }
 
-    // ---------- Builder ----------
+   
     public static class Builder {
         private Long id;
         private Farm farm;

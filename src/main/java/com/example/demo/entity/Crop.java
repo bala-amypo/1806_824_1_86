@@ -15,7 +15,7 @@ public class Crop {
     private Double requiredWater;
     private String season;
 
-    // ---------- Constructors ----------
+   
     public Crop() {}
 
     public Crop(Long id, String name, Double suitablePHMin, Double suitablePHMax,
@@ -28,7 +28,7 @@ public class Crop {
         this.season = season;
     }
 
-    // ---------- Validation ----------
+    
     @PrePersist
     @PreUpdate
     private void validate() {

@@ -34,7 +34,7 @@ public class Farm {
         this.season = season;
     }
 
-    // ---------- Validation ----------
+    
     @PrePersist
     @PreUpdate
     private void validate() {

@@ -18,12 +18,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // password must be stored hashed (handled in service)
+    
     private String password;
 
     private String role = "USER";
 
-    // ---------- Constructors ----------
+    
     public User() {}
 
     public User(Long id, String name, String email, String password, String role) {
@@ -34,7 +34,7 @@ public class User {
         this.role = role != null ? role : "USER";
     }
 
-    // ---------- Getters & Setters ----------
+    
     public Long getId() {
         return id;
     }
@@ -63,7 +63,7 @@ public class User {
         return password;
     }
 
-    // hashing is done in service
+    
     public void setPassword(String password) {
         this.password = password;
     }
@@ -76,7 +76,7 @@ public class User {
         this.role = (role == null) ? "USER" : role;
     }
 
-    // ---------- Builder ----------
+    
     public static class Builder {
         private Long id;
         private String name;
