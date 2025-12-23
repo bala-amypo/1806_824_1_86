@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "fertilizer")
 public class Fertilizer {
 
     @Id
@@ -10,26 +11,21 @@ public class Fertilizer {
     private Long id;
 
     private String name;
+
+    @Column(name = "npk_ratio")
     private String npkRatio;
+
+    @Column(name = "recommended_for_crops")
     private String recommendedForCrops;
 
     // ---------- Constructors ----------
-    public Fertilizer() {}
+    public Fertilizer() {
+    }
 
-    public Fertilizer(Long id, String name, String npkRatio, String recommendedForCrops) {
-        this.id = id;
+    public Fertilizer(String name, String npkRatio, String recommendedForCrops) {
         this.name = name;
         this.npkRatio = npkRatio;
         this.recommendedForCrops = recommendedForCrops;
-    }
-
-    // ---------- Validation ----------
-    @PrePersist
-    @PreUpdate
-    private void validate() {
-        if (!npkRatio.matches("\\d+-\\d+-\\d+")) {
-            throw new RuntimeException("NPK");
-        }
     }
 
     // ---------- Getters & Setters ----------
@@ -37,63 +33,31 @@ public class Fertilizer {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getNpkRatio() {
-        return npkRatio;
-    }
-
-    public String getRecommendedForCrops() {
-        return recommendedForCrops;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getNpkRatio() {
+        return npkRatio;
+    }
+
     public void setNpkRatio(String npkRatio) {
         this.npkRatio = npkRatio;
     }
 
-    public void setRecommendedForCrops(String recommendedForCrops) {
-        this.recommendedForCrops = recommendedForCrops;
+    public String getRecommendedForCrops() {
+        return recommendedForCrops;
     }
 
-    // ---------- Builder ----------
-    public static class Builder {
-        private Long id;
-        private String name;
-        private String npkRatio;
-        private String recommendedForCrops;
-
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder npkRatio(String npkRatio) {
-            this.npkRatio = npkRatio;
-            return this;
-        }
-
-        public Builder recommendedForCrops(String crops) {
-            this.recommendedForCrops = crops;
-            return this;
-        }
-
-        public Fertilizer build() {
-            return new Fertilizer(id, name, npkRatio, recommendedForCrops);
-        }
+    public void setRecommendedForCrops(String recommendedForCrops) {
+        this.recommendedForCrops = recommendedForCrops;
     }
 }
