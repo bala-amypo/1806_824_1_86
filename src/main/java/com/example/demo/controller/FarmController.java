@@ -1,23 +1,20 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.FarmRequest;
-import com.example.demo.entity.Farm;
-import com.example.demo.service.FarmService;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/farms")
+@RequestMapping("/farm")
 public class FarmController {
 
-    private final FarmService farmService;
-
-    public FarmController(FarmService farmService) {
-        this.farmService = farmService;
+    @GetMapping("/hello")
+    public String helloFarmer() {
+        return "Hello Farmer! Welcome to the Farm API";
     }
 
-    @PostMapping
-    public Farm createFarm(@RequestBody FarmRequest request,
-                           Authentication authentication) {
+    @GetMapping("/crop")
+    public String crop() {
+        return "Recommended crop: Rice";
+    }
+}
