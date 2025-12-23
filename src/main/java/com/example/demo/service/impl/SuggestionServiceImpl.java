@@ -1,54 +1,69 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.*;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.SuggestionService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SuggestionServiceImpl implements SuggestionService {
 
-    private final FarmRepository farmRepo;
-    private final CropRepository cropRepo;
-    private final FertilizerRepository fertRepo;
-    private final SuggestionRepository suggestionRepo;
+    private final FarmRepository farmRepository;
+    private final CropRepository cropRepository;
+    private final FertilizerRepository fertilizerRepository;
+    private final SuggestionRepository suggestionRepository;
+
+    public SuggestionServiceImpl(FarmRepository farmRepository,
+                                 CropRepository cropRepository,
+                                 FertilizerRepository fertilizerRepository,
+                                 SuggestionRepository suggestionRepository) {
+        this.farmRepository = farmRepository;
+        this.cropRepository = cropRepository;
+        this.fertilizerRepository = fertilizerRepository;
+        this.suggestionRepository = suggestionRepository;
+    }
 
     @Override
     public Suggestion generateSuggestion(Long farmId) {
-        Farm farm = farmRepo.findById(farmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Farm"));
+        Farm farm = farmRepository.findById(farmId)
+                .orElseThrow(() -> new RuntimeException("Farm not found"));
 
-        List<Crop> crops = cropRepo.findSuitableCrops(
-                farm.getSoilPH(), farm.getWaterLevel(), farm.getSeason());
+        List<Crop> crops = cropRepository.findSuitableCrops(
+                farm.getSoilPH(),
+                farm.getWaterLevel(),
+                farm.getSeason()
+        );
 
         List<Fertilizer> fertilizers = crops.stream()
-                .flatMap(c -> fertRepo.findByRecommendedForCropsContaining(c.getName()).stream())
+                .flatMap(c -> fertilizerRepository
+                        .findByRecommendedForCropsContaining(c.getName())
+                        .stream())
                 .distinct()
                 .toList();
 
-        Suggestion suggestion = Suggestion.builder()
-                .farm(farm)
-                .suggestedCrops(crops.stream().map(Crop::getName).collect(Collectors.joining(",")))
-                .suggestedFertilizers(fertilizers.stream().map(Fertilizer::getName).collect(Collectors.joining(",")))
-                .build();
+        Suggestion suggestion = new Suggestion();
+        suggestion.setFarm(farm);
+        suggestion.setSuggestedCrops(
+                crops.stream().map(Crop::getName).collect(Collectors.joining(","))
+        );
+        suggestion.setSuggestedFertilizers(
+                fertilizers.stream().map(Fertilizer::getName).collect(Collectors.joining(","))
+        );
 
-        return suggestionRepo.save(suggestion);
+        return suggestionRepository.save(suggestion);
     }
 
     @Override
     public Suggestion getSuggestion(Long suggestionId) {
-        return suggestionRepo.findById(suggestionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Suggestion"));
+        return suggestionRepository.findById(suggestionId)
+                .orElseThrow(() -> new RuntimeException("Suggestion not found"));
     }
 
     @Override
     public List<Suggestion> getSuggestionsByFarm(Long farmId) {
-        return suggestionRepo.findByFarmId(farmId);
+        return suggestionRepository.findByFarmId(farmId);
     }
 }
