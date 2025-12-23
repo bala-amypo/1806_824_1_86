@@ -13,6 +13,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url("")));
+                .servers(List.of(new Server().url("https://9009.32procr.amypo.ai/")));
     }
 }
