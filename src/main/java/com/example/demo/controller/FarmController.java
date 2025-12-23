@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Farm;
 import com.example.demo.service.FarmService;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,28 +12,27 @@ public class FarmController {
 
     private final FarmService farmService;
 
-    // Constructor injection
     public FarmController(FarmService farmService) {
         this.farmService = farmService;
     }
 
     // POST /farms
     @PostMapping
-    public Farm createFarm(@RequestBody Farm farm, Authentication authentication) {
-        Long userId = Long.parseLong(authentication.getName());
+    public Farm createFarm(@RequestBody Farm farm) {
+        Long userId = 1L; // TEMP USER ID (NO SECURITY)
         return farmService.createFarm(farm, userId);
     }
 
     // GET /farms
     @GetMapping
-    public List<Farm> listFarms(Authentication authentication) {
-        Long userId = Long.parseLong(authentication.getName());
+    public List<Farm> listFarms() {
+        Long userId = 1L; // TEMP USER ID
         return farmService.getFarmsByOwner(userId);
     }
 
-    // GET /farms/{farmId}
-    @GetMapping("/{farmId}")
-    public Farm getFarm(@PathVariable Long farmId) {
-        return farmService.getFarmById(farmId);
+    // GET /farms/{id}
+    @GetMapping("/{id}")
+    public Farm getFarm(@PathVariable Long id) {
+        return farmService.getFarmById(id);
     }
 }
