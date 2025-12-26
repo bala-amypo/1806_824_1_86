@@ -1,21 +1,35 @@
 package com.example.demo.dto;
 
-public class SuggestionResponse {
+public class RegisterRequest {
 
-    private String suggestion;
+    private String username;
+    private String password;
+    private String role;
 
-    public SuggestionResponse() {
+    public RegisterRequest() {
     }
 
-    public SuggestionResponse(String suggestion) {
-        this.suggestion = suggestion;
+    public String getUsername() {
+        return username;
     }
 
-    public String getSuggestion() {
-        return suggestion;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setSuggestion(String suggestion) {
-        this.suggestion = suggestion;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
