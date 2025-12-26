@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/farm")
 public class FarmController {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<String> getFarmById(@PathVariable int id) {
-        return ResponseEntity.ok("Farm ID: " + id);
+    private final FarmService farmService;
+    private final UserService userService;
+
+    public FarmController(FarmService farmService, UserService userService) {
+        this.farmService = farmService;
+        this.userService = userService;
     }
 }
