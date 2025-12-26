@@ -1,35 +1,24 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
-@Table(name = "fertilizers")
 public class Fertilizer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String fertilizerName;
-
-    @Column(nullable = false)
-    private String cropType;
-
-    private int quantity;
+    private String name;
+    private String usage;
 
     public Fertilizer() {
+    }
+
+    public Fertilizer(Long id, String name, String usage) {
+        this.id = id;
+        this.name = name;
+        this.usage = usage;
     }
 
     public Long getId() {
@@ -40,27 +29,19 @@ public class Fertilizer {
         this.id = id;
     }
 
-    public String getFertilizerName() {
-        return fertilizerName;
+    public String getName() {
+        return name;
     }
 
-    public void setFertilizerName(String fertilizerName) {
-        this.fertilizerName = fertilizerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCropType() {
-        return cropType;
+    public String getUsage() {
+        return usage;
     }
 
-    public void setCropType(String cropType) {
-        this.cropType = cropType;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setUsage(String usage) {
+        this.usage = usage;
     }
 }

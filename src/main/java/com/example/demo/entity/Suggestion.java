@@ -1,29 +1,24 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "suggestions")
 public class Suggestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String suggestion;
+    private String cropName;
+    private String fertilizerName;
 
     public Suggestion() {
+    }
+
+    public Suggestion(Long id, String cropName, String fertilizerName) {
+        this.id = id;
+        this.cropName = cropName;
+        this.fertilizerName = fertilizerName;
     }
 
     public Long getId() {
@@ -34,11 +29,19 @@ public class Suggestion {
         this.id = id;
     }
 
-    public String getSuggestion() {
-        return suggestion;
+    public String getCropName() {
+        return cropName;
     }
 
-    public void setSuggestion(String suggestion) {
-        this.suggestion = suggestion;
+    public void setCropName(String cropName) {
+        this.cropName = cropName;
+    }
+
+    public String getFertilizerName() {
+        return fertilizerName;
+    }
+
+    public void setFertilizerName(String fertilizerName) {
+        this.fertilizerName = fertilizerName;
     }
 }
