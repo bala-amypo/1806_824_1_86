@@ -12,8 +12,7 @@ public class Fertilizer {
     private String name;
     private String usage;
 
-    public Fertilizer() {
-    }
+    public Fertilizer() {}
 
     public Fertilizer(Long id, String name, String usage) {
         this.id = id;
