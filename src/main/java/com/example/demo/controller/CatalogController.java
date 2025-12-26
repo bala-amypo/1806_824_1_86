@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/catalog")
 public class CatalogController {
 
-    @GetMapping
-    public ResponseEntity<List<String>> getCatalog() {
-        List<String> items = Arrays.asList("Laptop", "Phone", "Tablet");
-        return ResponseEntity.ok(items);
+    private final CatalogService catalogService;
+
+    public CatalogController(CatalogService catalogService) {
+        this.catalogService = catalogService;
     }
 }
