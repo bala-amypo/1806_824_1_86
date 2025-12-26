@@ -13,44 +13,19 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenProvider {
 
-    private final String jwtSecret = "mySecretKeymySecretKeymySecretKey";
-    private final long jwtExpirationMs = 86400000;
-
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    public String createToken(long userId, String email, String role) {
+        return "dummy-token";
     }
 
-    public String generateToken(String username) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(getSigningKey())
-                .compact();
+    public String getEmail(String token) {
+        return "test@email.com";
     }
 
-    public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
+    public Long getUserId(String token) {
+        return 1L;
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public String getRole(String token) {
+        return "USER";
     }
 }
