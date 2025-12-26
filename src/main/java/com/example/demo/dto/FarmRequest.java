@@ -1,10 +1,35 @@
 package com.example.demo.dto;
 
-import lombok.Data;
-
-@Data
 public class FarmRequest {
-    private String farmerName;
+
+    private String farmName;
     private String location;
-    private Double landArea;
+    private double size;
+
+    public FarmRequest() {
+    }
+
+    public String getFarmName() {
+        return farmName;
+    }
+
+    public void setFarmName(String farmName) {
+        this.farmName = farmName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
 }

@@ -1,38 +1,17 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Farm;
-import com.example.demo.service.FarmService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/farms")
+@RequestMapping("/api/farm")
 public class FarmController {
 
-    private final FarmService farmService;
-
-    public FarmController(FarmService farmService) {
-        this.farmService = farmService;
-    }
-
-    // POST /farms
-    @PostMapping
-    public Farm createFarm(@RequestBody Farm farm) {
-        Long userId = 1L; // TEMP USER ID (NO SECURITY)
-        return farmService.createFarm(farm, userId);
-    }
-
-    // GET /farms
-    @GetMapping
-    public List<Farm> listFarms() {
-        Long userId = 1L; // TEMP USER ID
-        return farmService.getFarmsByOwner(userId);
-    }
-
-    // GET /farms/{id}
     @GetMapping("/{id}")
-    public Farm getFarm(@PathVariable Long id) {
-        return farmService.getFarmById(id);
+    public ResponseEntity<String> getFarmById(@PathVariable int id) {
+        return ResponseEntity.ok("Farm ID: " + id);
     }
 }
