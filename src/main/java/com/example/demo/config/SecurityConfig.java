@@ -1,11 +1,7 @@
-@Bean
-SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .anyRequest().permitAll()
-        )
-        .formLogin(form -> form.disable());
+package com.example.demo.config;
 
-    return http.build();
+
+public class SecurityConfig {
+
+    
 }
