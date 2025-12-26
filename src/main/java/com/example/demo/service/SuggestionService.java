@@ -6,5 +6,5 @@ import com.example.demo.entity.Suggestion;
 
 public interface SuggestionService {
 
-    List<Suggestion> getAllSuggestions();
+    Suggestion generateSuggestion(long farmId);
 }
