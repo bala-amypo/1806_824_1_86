@@ -1,5 +1,8 @@
 package com.example.demo.security;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class JwtTokenProvider {
 
     public String createToken(Long userId, String email, String role) {
@@ -10,12 +13,12 @@ public class JwtTokenProvider {
         return token != null;
     }
 
-    public Long getUserId(String token) {
-        return Long.parseLong(token.split("\\|")[0]);
-    }
-
     public String getEmail(String token) {
         return token.split("\\|")[1];
+    }
+
+    public Long getUserId(String token) {
+        return Long.parseLong(token.split("\\|")[0]);
     }
 
     public String getRole(String token) {
