@@ -1,26 +1,24 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-
-@Component
 public class JwtTokenProvider {
 
-    public String createToken(long userId, String email, String role) {
-        return "token";
+    public String createToken(Long userId, String email, String role) {
+        return userId + "|" + email + "|" + role;
     }
 
-    public String getEmail(String token) {
-        return "email@test.com";
+    public boolean validateToken(String token) {
+        return token != null;
     }
 
     public Long getUserId(String token) {
-        return 1L;
+        return Long.parseLong(token.split("\\|")[0]);
+    }
+
+    public String getEmail(String token) {
+        return token.split("\\|")[1];
     }
 
     public String getRole(String token) {
-        return "ROLE_USER";
+        return token.split("\\|")[2];
     }
 }
