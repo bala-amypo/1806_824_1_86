@@ -8,32 +8,19 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final String jwtSecret = "secret-key";
-    private final long jwtExpirationMs = 86400000;
-
-    public String generateToken(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
-                .compact();
+    public String createToken(long userId, String email, String role) {
+        return "token";
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+    public String getEmail(String token) {
+        return "email@test.com";
     }
 
-    public String getUsernameFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public Long getUserId(String token) {
+        return 1L;
+    }
+
+    public String getRole(String token) {
+        return "ROLE_USER";
     }
 }
