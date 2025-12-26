@@ -7,16 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody String request) {
-        return ResponseEntity.ok("Login successful");
-    }
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody String request) {
-        return ResponseEntity.ok("User registered");
+    public AuthController(UserService userService,
+                          JwtTokenProvider jwtTokenProvider) {
+        this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 }
