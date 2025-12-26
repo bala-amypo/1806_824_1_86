@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor @NoArgsConstructor @Data
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CropRequest {
     private String name;
     private double minPH;
     private double maxPH;
-    private double water;
-    private String season;
 }

@@ -3,7 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,19 +18,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Suggestion {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private Farm farm;
-
-    private String suggestedCrops;
-    private String suggestedFertilizers;
+    private String cropName;
+    private String fertilizerName;
+    private String reason;
 
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 }
