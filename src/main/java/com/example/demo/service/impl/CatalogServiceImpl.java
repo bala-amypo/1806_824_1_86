@@ -36,3 +36,4 @@ public class CatalogServiceImpl implements CatalogService {
         return cropRepository.findSuitableCrops(min, max, season);
     }
 }
+

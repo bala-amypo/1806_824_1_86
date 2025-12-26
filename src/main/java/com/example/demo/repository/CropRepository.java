@@ -11,8 +11,7 @@ import java.util.List;
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
     @Query("SELECT c FROM Crop c WHERE c.nitrogen <= :nitrogen AND c.phosphorus <= :phosphorus AND c.soilType = :soilType")
-    List<Crop> findSuitableCrops(@Param("nitrogen") double nitrogen,
-                                 @Param("phosphorus") double phosphorus,
-                                 @Param("soilType") String soilType);
-
+List<Crop> findSuitableCrops(@Param("nitrogen") double nitrogen,
+                             @Param("phosphorus") double phosphorus,
+                             @Param("soilType") String soilType);
 }
