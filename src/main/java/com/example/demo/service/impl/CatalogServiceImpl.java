@@ -1,42 +1,24 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Crop;
-import com.example.demo.entity.Fertilizer;
-import com.example.demo.repository.CropRepository;
-import com.example.demo.repository.FertilizerRepository;
-import com.example.demo.service.CatalogService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.example.demo.entity.Crop;
+import com.example.demo.repository.CropRepository;
+import com.example.demo.service.CatalogService;
+
 @Service
-@RequiredArgsConstructor
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepo;
-    private final FertilizerRepository fertRepo;
+    private final CropRepository cropRepository;
 
-    @Override
-    public Crop addCrop(Crop crop) {
-        return cropRepo.save(crop);
+    public CatalogServiceImpl(CropRepository cropRepository) {
+        this.cropRepository = cropRepository;
     }
 
     @Override
-    public Fertilizer addFertilizer(Fertilizer fertilizer) {
-        return fertRepo.save(fertilizer);
-    }
-
-    @Override
-    public List<Crop> findSuitableCrops(Double ph, Double water, String season) {
-        return cropRepo.findSuitableCrops(ph, water, season);
-    }
-
-    @Override
-    public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-        return cropNames.stream()
-                .flatMap(c -> fertRepo.findByRecommendedForCropsContaining(c).stream())
-                .distinct()
-                .toList();
+    public List<Crop> getAllCrops() {
+        return cropRepository.findAll();
     }
 }
