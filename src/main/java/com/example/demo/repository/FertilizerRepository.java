@@ -1,10 +1,11 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.example.demo.entity.Fertilizer;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
+import java.util.List;
+
 public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
+
+    List<Fertilizer> findByCropName(String cropName);
 }
