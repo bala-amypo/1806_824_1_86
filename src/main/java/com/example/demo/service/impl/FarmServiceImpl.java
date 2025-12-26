@@ -18,7 +18,7 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public Farm createFarm(Farm farm, Long userId) {
-        // Here you can set the owner/userId if needed
+        // userId can be mapped to owner later if needed
         return farmRepository.save(farm);
     }
 
@@ -38,7 +38,9 @@ public class FarmServiceImpl implements FarmService {
         if (existing.isPresent()) {
             Farm f = existing.get();
             f.setName(farm.getName());
-            f.setLocation(farm.getLocation());
+            f.setSoilPH(farm.getSoilPH());
+            f.setWaterLevel(farm.getWaterLevel());
+            f.setSeason(farm.getSeason());
             return farmRepository.save(f);
         }
         return null;
