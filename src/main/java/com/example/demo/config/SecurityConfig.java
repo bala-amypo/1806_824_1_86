@@ -1,7 +1,11 @@
-package com.example.demo.config;
+@Bean
+SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll()
+        )
+        .formLogin(form -> form.disable());
 
-
-public class SecurityConfig {
-
-    
+    return http.build();
 }
