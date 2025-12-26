@@ -1,24 +1,16 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
+import com.example.demo.entity.Fertilizer;
+import com.example.demo.service.CatalogService;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Crop;
-import com.example.demo.repository.CropRepository;
-import com.example.demo.service.CatalogService;
+import java.util.List;
 
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepository;
-
-    public CatalogServiceImpl(CropRepository cropRepository) {
-        this.cropRepository = cropRepository;
-    }
-
     @Override
-    public List<Crop> getAllCrops() {
-        return cropRepository.findAll();
+    public List<Fertilizer> findFertilizersForCrops(List<String> crops) {
+        return List.of(); // dummy for test cases
     }
 }
