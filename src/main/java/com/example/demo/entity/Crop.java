@@ -10,38 +10,28 @@ public class Crop {
     private Long id;
 
     private String name;
+
+    private Double suitablePHMin;
+    private Double suitablePHMax;
+
+    private Double requiredWater;
+
     private String season;
 
-    public Crop() {
-    }
+    // getters and setters for all fields
+    public Double getSuitablePHMin() { return suitablePHMin; }
+    public void setSuitablePHMin(Double suitablePHMin) { this.suitablePHMin = suitablePHMin; }
 
-    public Crop(Long id, String name, String season) {
-        this.id = id;
-        this.name = name;
-        this.season = season;
-    }
+    public Double getSuitablePHMax() { return suitablePHMax; }
+    public void setSuitablePHMax(Double suitablePHMax) { this.suitablePHMax = suitablePHMax; }
 
-    public Long getId() {
-        return id;
-    }
+    public Double getRequiredWater() { return requiredWater; }
+    public void setRequiredWater(Double requiredWater) { this.requiredWater = requiredWater; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getSeason() { return season; }
+    public void setSeason(String season) { this.season = season; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
+    // name getter/setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 }
