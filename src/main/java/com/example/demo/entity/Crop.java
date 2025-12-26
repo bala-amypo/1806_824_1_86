@@ -14,11 +14,7 @@ public class Crop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    // TEST EXPECTS THESE EXACT FIELD NAMES
-    private double suitablePHMin;
-    private double suitablePHMax;
-
-    private String season;
+    private double nitrogen;   // Must exist
+    private double phosphorus; // Must exist
+    private String soilType; 
 }
