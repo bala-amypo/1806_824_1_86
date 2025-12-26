@@ -1,20 +1,20 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import java.util.Arrays;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.demo.service.CatalogService;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@RequestMapping("/api/catalog")
+@RequestMapping("/catalog")
 public class CatalogController {
 
     private final CatalogService catalogService;
 
+    @Autowired
     public CatalogController(CatalogService catalogService) {
         this.catalogService = catalogService;
     }
+
+    // your endpoints
 }
