@@ -16,12 +16,19 @@ public class Crop {
     private Long id;
 
     @Column(nullable = false)
-    private String cropName;
+    private String name;
+
+    @Column(name = "ph_min")
+    private Double suitablePHMin;
+
+    @Column(name = "ph_max")
+    private Double suitablePHMax;
+
+    @Column(name = "required_water")
+    private Double requiredWater;
 
     @Column(nullable = false)
     private String season;
-
-    private double area;
 
     public Crop() {
     }
@@ -30,31 +37,47 @@ public class Crop {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public String getCropName() {
-        return cropName;
+    public Double getSuitablePHMin() {
+        return suitablePHMin;
     }
 
-    public void setCropName(String cropName) {
-        this.cropName = cropName;
+    public Double getSuitablePHMax() {
+        return suitablePHMax;
+    }
+
+    public Double getRequiredWater() {
+        return requiredWater;
     }
 
     public String getSeason() {
         return season;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSuitablePHMin(Double suitablePHMin) {
+        this.suitablePHMin = suitablePHMin;
+    }
+
+    public void setSuitablePHMax(Double suitablePHMax) {
+        this.suitablePHMax = suitablePHMax;
+    }
+
+    public void setRequiredWater(Double requiredWater) {
+        this.requiredWater = requiredWater;
+    }
+
     public void setSeason(String season) {
         this.season = season;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
     }
 }
