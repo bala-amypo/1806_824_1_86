@@ -1,34 +1,31 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "fertilizer")
+@Table(name = "fertilizers")
 public class Fertilizer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    private String fertilizerName;
 
-    @Column(name = "npk_ratio")
-    private String npkRatio;
+    @Column(nullable = false)
+    private String cropType;
 
-    @Column(name = "recommended_for_crops")
-    private String recommendedForCrops;
+    private int quantity;
 
-    // ---------- Constructors ----------
     public Fertilizer() {
     }
 
-    public Fertilizer(String name, String npkRatio, String recommendedForCrops) {
-        this.name = name;
-        this.npkRatio = npkRatio;
-        this.recommendedForCrops = recommendedForCrops;
-    }
-
-    // ---------- Getters & Setters ----------
     public Long getId() {
         return id;
     }
@@ -37,27 +34,27 @@ public class Fertilizer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFertilizerName() {
+        return fertilizerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFertilizerName(String fertilizerName) {
+        this.fertilizerName = fertilizerName;
     }
 
-    public String getNpkRatio() {
-        return npkRatio;
+    public String getCropType() {
+        return cropType;
     }
 
-    public void setNpkRatio(String npkRatio) {
-        this.npkRatio = npkRatio;
+    public void setCropType(String cropType) {
+        this.cropType = cropType;
     }
 
-    public String getRecommendedForCrops() {
-        return recommendedForCrops;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setRecommendedForCrops(String recommendedForCrops) {
-        this.recommendedForCrops = recommendedForCrops;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

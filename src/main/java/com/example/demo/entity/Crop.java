@@ -1,49 +1,31 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "crops")
 public class Crop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private Double suitablePHMin;
-    private Double suitablePHMax;
-    private Double requiredWater;
+    @Column(nullable = false)
+    private String cropName;
+
+    @Column(nullable = false)
     private String season;
 
-   
-    public Crop() {}
+    private double area;
 
-    public Crop(Long id, String name, Double suitablePHMin, Double suitablePHMax,
-                Double requiredWater, String season) {
-        this.id = id;
-        this.name = name;
-        this.suitablePHMin = suitablePHMin;
-        this.suitablePHMax = suitablePHMax;
-        this.requiredWater = requiredWater;
-        this.season = season;
+    public Crop() {
     }
 
-    
-    @PrePersist
-    @PreUpdate
-    private void validate() {
-        if (suitablePHMin > suitablePHMax) {
-            throw new RuntimeException("PH min");
-        }
-
-        if (!season.equals("Kharif") &&
-            !season.equals("Rabi") &&
-            !season.equals("Summer")) {
-            throw new RuntimeException("Invalid season");
-        }
-    }
-
-    // ---------- Getters & Setters ----------
     public Long getId() {
         return id;
     }
@@ -52,36 +34,12 @@ public class Crop {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCropName() {
+        return cropName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getSuitablePHMin() {
-        return suitablePHMin;
-    }
-
-    public void setSuitablePHMin(Double suitablePHMin) {
-        this.suitablePHMin = suitablePHMin;
-    }
-
-    public Double getSuitablePHMax() {
-        return suitablePHMax;
-    }
-
-    public void setSuitablePHMax(Double suitablePHMax) {
-        this.suitablePHMax = suitablePHMax;
-    }
-
-    public Double getRequiredWater() {
-        return requiredWater;
-    }
-
-    public void setRequiredWater(Double requiredWater) {
-        this.requiredWater = requiredWater;
+    public void setCropName(String cropName) {
+        this.cropName = cropName;
     }
 
     public String getSeason() {
@@ -92,47 +50,11 @@ public class Crop {
         this.season = season;
     }
 
-    // ---------- Builder ----------
-    public static class Builder {
-        private Long id;
-        private String name;
-        private Double suitablePHMin;
-        private Double suitablePHMax;
-        private Double requiredWater;
-        private String season;
+    public double getArea() {
+        return area;
+    }
 
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder suitablePHMin(Double min) {
-            this.suitablePHMin = min;
-            return this;
-        }
-
-        public Builder suitablePHMax(Double max) {
-            this.suitablePHMax = max;
-            return this;
-        }
-
-        public Builder requiredWater(Double water) {
-            this.requiredWater = water;
-            return this;
-        }
-
-        public Builder season(String season) {
-            this.season = season;
-            return this;
-        }
-
-        public Crop build() {
-            return new Crop(id, name, suitablePHMin, suitablePHMax, requiredWater, season);
-        }
+    public void setArea(double area) {
+        this.area = area;
     }
 }

@@ -1,10 +1,21 @@
 package com.example.demo.dto;
 
-import lombok.Data;
+public class SuggestionResponse {
 
-@Data
-public class RegisterRequest {
-    private String username;
-    private String password;
-    private String role; // USER / ADMIN
+    private String suggestion;
+
+    public SuggestionResponse() {
+    }
+
+    public SuggestionResponse(String suggestion) {
+        this.suggestion = suggestion;
+    }
+
+    public String getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestion(String suggestion) {
+        this.suggestion = suggestion;
+    }
 }
