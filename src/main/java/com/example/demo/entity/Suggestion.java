@@ -12,8 +12,7 @@ public class Suggestion {
     private String cropName;
     private String fertilizerName;
 
-    public Suggestion() {
-    }
+    public Suggestion() {}
 
     public Suggestion(Long id, String cropName, String fertilizerName) {
         this.id = id;
