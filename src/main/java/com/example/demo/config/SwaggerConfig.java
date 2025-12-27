@@ -6,22 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 @Configuration
 public class SwaggerConfig {
-// @Bean
-// public OpenAPI customOpenAPI() {
-// return new OpenAPI()
-// // You need to change the port as per your server
-// .servers(List.of(
-// new Server().url("https://9079.pro604cr.amypo.ai")
-// ));
-// }
 @Bean
 public OpenAPI customOpenAPI() {
 return new OpenAPI()
 .servers(List.of(
-new Server().url("https://9079.pro604cr.amypo.ai")
+new Server().url("https://9009.32procr.amypo.ai/")
 ));
 }
-// For the test code
 public OpenAPI api() {
 return customOpenAPI();
 }
