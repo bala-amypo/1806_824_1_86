@@ -1,29 +1,12 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.entity.Suggestion;
+package com.example.demo;
 import com.example.demo.repository.SuggestionRepository;
-import com.example.demo.service.SuggestionService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-@Service
-@RequiredArgsConstructor
-public class SuggestionServiceImpl implements SuggestionService {
-
-    private final SuggestionRepository repo;
-
-    @Override
-    public Suggestion generateSuggestion(long farmId) {
-        return repo.save(
-                Suggestion.builder()
-                        .farmId(farmId)
-                        .suggestedCrops("Rice,Wheat")
-                        .build()
-        );
-    }
-
-    @Override
-    public Suggestion getSuggestion(long id) {
-        return repo.findById(id).orElseThrow();
-    }
+import com.example.demo.service.CatalogService;
+import com.example.demo.service.FarmService;
+public class SuggestionServiceImpl
+extends com.example.demo.service.impl.SuggestionServiceImpl {
+public SuggestionServiceImpl(FarmService farmService,
+CatalogService catalogService,
+SuggestionRepository suggestionRepository) {
+super(farmService, catalogService, suggestionRepository);
+}
 }
