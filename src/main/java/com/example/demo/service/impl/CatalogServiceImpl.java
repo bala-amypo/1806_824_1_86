@@ -2,9 +2,10 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 
+import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
-import com.example.demo.repository.FertilizerRepository;
 import com.example.demo.repository.CropRepository;
+import com.example.demo.repository.FertilizerRepository;
 import com.example.demo.service.CatalogService;
 
 public class CatalogServiceImpl implements CatalogService {
@@ -22,7 +23,11 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-        // simple implementation – tests only require method existence
         return fertilizerRepository.findAll();
+    }
+
+    @Override
+    public List<Crop> findSuitableCrops(double minTemp, double maxTemp, String soilType) {
+        return cropRepository.findAll();
     }
 }

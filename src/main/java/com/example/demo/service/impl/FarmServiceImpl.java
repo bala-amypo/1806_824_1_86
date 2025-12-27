@@ -18,4 +18,9 @@ public class FarmServiceImpl implements FarmService {
     public List<Farm> getFarmsByOwner(Long ownerId) {
         return farmRepository.findAll();
     }
+
+    @Override
+    public Farm getFarmById(Long farmId) {
+        return farmRepository.findById(farmId).orElse(null);
+    }
 }
