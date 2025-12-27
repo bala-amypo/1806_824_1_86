@@ -1,31 +1,72 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.entity.*;
+import com.example.demo.repository.SuggestionRepository;
+import com.example.demo.service.CatalogService;
+import com.example.demo.service.FarmService;
 import com.example.demo.service.SuggestionService;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SuggestionServiceImpl implements SuggestionService {
 
-    private final FarmService fs;
-    private final CatalogService cs;
-    private final SuggestionRepository repo;
+    private final FarmService farmService;
+    private final CatalogService catalogService;
+    private final SuggestionRepository suggestionRepository;
 
-    public SuggestionServiceImpl(FarmService f, CatalogService c, SuggestionRepository r){
-        fs=f; cs=c; repo=r;
+    public SuggestionServiceImpl(
+            FarmService farmService,
+            CatalogService catalogService,
+            SuggestionRepository suggestionRepository
+    ) {
+        this.farmService = farmService;
+        this.catalogService = catalogService;
+        this.suggestionRepository = suggestionRepository;
     }
 
-    public Suggestion generateSuggestion(Long farmId){
-        Farm f=fs.getFarmById(farmId);
-        List<Crop> crops=cs.findSuitableCrops(f.getSoilPH(),f.getWaterLevel(),f.getSeason());
-        List<String> names=crops.stream().map(Crop::getName).toList();
-        List<Fertilizer> ferts=cs.findFertilizersForCrops(names);
+    @Override
+    public Suggestion generateSuggestion(Long farmId) {
 
-        Suggestion s=Suggestion.builder()
-            .farm(f)
-            .suggestedCrops(String.join(",",names))
-            .suggestedFertilizers(ferts.stream().map(Fertilizer::getName).collect(Collectors.joining(",")))
-            .build();
+        Farm farm = farmService.getFarmById(farmId);
 
-        return repo.save(s);
+        List<Crop> crops = catalogService.findSuitableCrops(
+                farm.getSoilPH(),
+                farm.getWaterLevel(),
+                farm.getSeason()
+        );
+
+        List<String> cropNames = crops
+                .stream()
+                .map(Crop::getName)
+                .collect(Collectors.toList());
+
+        List<Fertilizer> fertilizers =
+                catalogService.findFertilizersForCrops(cropNames);
+
+        Suggestion suggestion = Suggestion.builder()
+                .farm(farm)
+                .suggestedCrops(String.join(",", cropNames))
+                .suggestedFertilizers(
+                        fertilizers.stream()
+                                .map(Fertilizer::getName)
+                                .collect(Collectors.joining(","))
+                )
+                .build();
+
+        return suggestionRepository.save(suggestion);
+    }
+
+    @Override
+    public Suggestion getSuggestion(Long suggestionId) {
+        return suggestionRepository.findById(suggestionId).orElse(null);
+    }
+
+    @Override
+    public List<Suggestion> getSuggestionsByFarm(Long farmId) {
+        return suggestionRepository.findByFarmId(farmId);
     }
 }
