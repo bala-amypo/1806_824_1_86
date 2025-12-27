@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.SuggestionResponse;
 import com.example.demo.repository.CropRepository;
 import com.example.demo.repository.FertilizerRepository;
 import com.example.demo.service.SuggestionService;
@@ -18,8 +17,4 @@ public class SuggestionServiceImpl implements SuggestionService {
         this.fertilizerRepository = fertilizerRepository;
     }
 
-    @Override
-    public SuggestionResponse getSuggestion(Long farmId) {
-        return new SuggestionResponse();
-    }
 }
