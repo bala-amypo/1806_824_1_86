@@ -5,26 +5,25 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Suggestion {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String crop;
-    private String fertilizer;
+    @ManyToOne
+    private Farm farm;
 
-    // 🔥 REQUIRED BY TESTS
-    @Transient
-    public int getStatusCodeValue() {
-        return 200;
-    }
+    private String suggestedCrops;
+    private String suggestedFertilizers;
 
-    @Transient
-    public Suggestion getBody() {
-        return this;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }

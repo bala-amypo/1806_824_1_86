@@ -6,6 +6,10 @@ import com.example.demo.entity.Fertilizer;
 import java.util.List;
 
 public interface CatalogService {
-    List<Crop> findCrops(double water, String season);
-    List<Fertilizer> findFertilizers(String crop);
+
+    Crop addCrop(Crop crop);
+    Fertilizer addFertilizer(Fertilizer fertilizer);
+
+    List<Crop> findSuitableCrops(double ph, double water, String season);
+    List<Fertilizer> findFertilizersForCrops(List<String> cropNames);
 }

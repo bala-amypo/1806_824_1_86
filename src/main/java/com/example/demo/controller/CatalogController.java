@@ -8,22 +8,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/catalog")
+@RequiredArgsConstructor
 public class CatalogController {
 
-    private final CatalogService service;
+    private final CatalogService catalogService;
 
-    public CatalogController(CatalogService service) {
-        this.service = service;
+    @PostMapping("/crops")
+    public ResponseEntity<Crop> addCrop(
+            @RequestBody CropRequest req,
+            Authentication auth
+    ) {
+        Crop crop = Crop.builder()
+                .name(req.getName())
+                .suitablePHMin(req.getSuitablePHMin())
+                .suitablePHMax(req.getSuitablePHMax())
+                .requiredWater(req.getRequiredWater())
+                .season(req.getSeason())
+                .build();
+
+        return ResponseEntity.ok(catalogService.addCrop(crop));
     }
 
-    @GetMapping("/crops")
-    public ResponseEntity<List<Crop>> findCrops(double water, String season) {
-        return ResponseEntity.ok(service.findCrops(water, season));
-    }
+    @PostMapping("/fertilizers")
+    public ResponseEntity<Fertilizer> addFertilizer(
+            @RequestBody FertilizerRequest req,
+            Authentication auth
+    ) {
+        Fertilizer f = Fertilizer.builder()
+                .name(req.getName())
+                .npkRatio(req.getNpkRatio())
+                .cropName(req.getCropName())
+                .build();
 
-    @GetMapping("/fertilizers")
-    public ResponseEntity<List<Fertilizer>> findFerts(String crop) {
-        return ResponseEntity.ok(service.findFertilizers(crop));
+        return ResponseEntity.ok(catalogService.addFertilizer(f));
     }
 }
