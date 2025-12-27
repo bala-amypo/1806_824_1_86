@@ -35,5 +35,4 @@ SecurityContextHolder.getContext().setAuthentication(authToken);
 }
 }
 filterChain.doFilter(request, response);
-}
-}
+}}
