@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
-    // 🔥 TEST EXPECTS THIS SIGNATURE
     @Query("""
         SELECT c FROM Crop c
-        WHERE c.requiredWater <= :water
-        AND c.season = :season
+        WHERE :soilPH BETWEEN c.suitablePHMin AND c.suitablePHMax
+          AND c.requiredWater <= :water
+          AND c.season = :season
     """)
-    List<Crop> findSuitableCrops(double water, String season);
+    List<Crop> findSuitableCrops(double soilPH, double water, String season);
 }
