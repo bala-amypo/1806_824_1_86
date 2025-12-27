@@ -17,3 +17,4 @@ AND c.requiredWater <= :water
 AND c.season = :season
 """)
 List<Crop> findSuitableCrops(double ph, double water, String season);
+}
