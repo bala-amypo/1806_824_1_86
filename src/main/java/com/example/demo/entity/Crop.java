@@ -7,13 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Crop {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class CropRequest {
     private String name;
     private double suitablePHMin;
     private double suitablePHMax;

@@ -3,8 +3,10 @@ package com.example.demo.dto;
 import lombok.Data;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FertilizerRequest {
     private String name;
     private String npkRatio;
-    private String recommendedForCrops;
+    private String cropName;
 }

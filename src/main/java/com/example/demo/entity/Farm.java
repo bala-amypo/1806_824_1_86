@@ -5,9 +5,9 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Farm {
 
     @Id
@@ -15,7 +15,10 @@ public class Farm {
     private Long id;
 
     private String name;
-    private String location;
-    private double size;
-    private Long ownerId;
+
+    // MUST be exactly this
+    private double soilPH;
+
+    private double waterLevel;
+    private String season;
 }
