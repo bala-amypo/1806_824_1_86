@@ -9,3 +9,4 @@ public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
 
     List<Fertilizer> findByRecommendedContaining(String crop);
 }
+
