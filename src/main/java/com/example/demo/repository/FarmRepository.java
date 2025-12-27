@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.example.demo.entity.Farm;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
+import java.util.List;
+
 public interface FarmRepository extends JpaRepository<Farm, Long> {
+
+    // ✅ REQUIRED by FarmServiceImpl & tests
+    List<Farm> findByOwnerId(Long ownerId);
 }
