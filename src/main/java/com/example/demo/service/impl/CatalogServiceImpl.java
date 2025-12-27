@@ -15,34 +15,19 @@ public class CatalogServiceImpl implements CatalogService {
     private final CropRepository cropRepository;
     private final FertilizerRepository fertilizerRepository;
 
-    public CatalogServiceImpl(
-            CropRepository cropRepository,
-            FertilizerRepository fertilizerRepository
-    ) {
+    public CatalogServiceImpl(CropRepository cropRepository,
+                              FertilizerRepository fertilizerRepository) {
         this.cropRepository = cropRepository;
         this.fertilizerRepository = fertilizerRepository;
     }
 
     @Override
-    public Crop addCrop(Crop crop) {
-        return cropRepository.save(crop);
+    public List<Crop> findCrops(double water, String season) {
+        return cropRepository.findSuitableCrops(water, season);
     }
 
     @Override
-    public Fertilizer addFertilizer(Fertilizer fertilizer) {
-        return fertilizerRepository.save(fertilizer);
-    }
-
-    @Override
-    public List<Crop> findSuitableCrops(Double ph, Double water, String season) {
-        return cropRepository.findSuitableCrops(ph, water, season);
-    }
-
-    @Override
-    public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-        return cropNames.stream()
-                .flatMap(name -> fertilizerRepository.findByCropName(name).stream())
-                .distinct()
-                .toList();
+    public List<Fertilizer> findFertilizers(String cropName) {
+        return fertilizerRepository.findByCropName(cropName);
     }
 }
