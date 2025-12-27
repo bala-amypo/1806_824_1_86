@@ -5,9 +5,15 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CropRequest {
+public class Crop {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
     private double suitablePHMin;
     private double suitablePHMax;

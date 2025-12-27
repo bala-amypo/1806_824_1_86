@@ -5,9 +5,9 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Fertilizer {
 
     @Id
@@ -16,5 +16,5 @@ public class Fertilizer {
 
     private String name;
     private String npkRatio;
-    private String recommendedForCrops;
+    private String cropName;
 }

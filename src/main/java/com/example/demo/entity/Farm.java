@@ -15,10 +15,7 @@ public class Farm {
     private Long id;
 
     private String name;
-
-    // MUST be exactly this
     private double soilPH;
-
     private double waterLevel;
     private String season;
 }
