@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
 
-    // ✅ REQUIRED BY TESTS — NAME STAYS THE SAME
     @Query("""
         SELECT f FROM Fertilizer f
         WHERE f.recommendedForCrops LIKE %:cropName%

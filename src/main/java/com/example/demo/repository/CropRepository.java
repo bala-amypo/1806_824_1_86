@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
-    // ✅ CORRECT QUERY — MATCHES ENTITY FIELDS
     @Query("""
         SELECT c FROM Crop c
         WHERE :ph BETWEEN c.suitablePHMin AND c.suitablePHMax

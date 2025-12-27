@@ -9,26 +9,40 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepo;
-    private final FertilizerRepository fertRepo;
+    private final CropRepository cropRepository;
+    private final FertilizerRepository fertilizerRepository;
 
-    public CatalogServiceImpl(CropRepository c, FertilizerRepository f){
-        this.cropRepo=c; this.fertRepo=f;
+    public CatalogServiceImpl(
+            CropRepository cropRepository,
+            FertilizerRepository fertilizerRepository
+    ) {
+        this.cropRepository = cropRepository;
+        this.fertilizerRepository = fertilizerRepository;
     }
 
-    public Crop addCrop(Crop c){ return cropRepo.save(c); }
-    public Fertilizer addFertilizer(Fertilizer f){ return fertRepo.save(f); }
-
-    public List<Crop> findSuitableCrops(Double ph, Double water, String season){
-        return cropRepo.findSuitableCrops(ph,water,season);
+    @Override
+    public Crop addCrop(Crop crop) {
+        return cropRepository.save(crop);
     }
 
-    public List<Fertilizer> findFertilizersForCrops(List<String> crops){
-        if(crops==null||crops.isEmpty()) return List.of();
-        return fertRepo.findByCropName(crops.get(0));
+    @Override
+    public Fertilizer addFertilizer(Fertilizer fertilizer) {
+        return fertilizerRepository.save(fertilizer);
+    }
+
+    @Override
+    public List<Crop> findSuitableCrops(Double ph, Double water, String season) {
+        return cropRepository.findSuitableCrops(ph, water, season);
+    }
+
+    @Override
+    public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
+        return cropNames.stream()
+                .flatMap(name -> fertilizerRepository.findByCropName(name).stream())
+                .distinct()
+                .toList();
     }
 }
