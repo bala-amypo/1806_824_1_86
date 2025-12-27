@@ -12,4 +12,3 @@ return npk != null && npk.matches("\\d+-\\d+-\\d+");
 public static boolean validPhRange(double min, double max) {
 return min > 0 && max > 0 && min <= max;
 }
-}

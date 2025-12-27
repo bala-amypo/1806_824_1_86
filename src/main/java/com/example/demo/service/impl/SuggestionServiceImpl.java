@@ -1,25 +1,55 @@
 package com.example.demo.service.impl;
-
-import com.example.demo.dto.SuggestionResponse;
-import com.example.demo.repository.CropRepository;
-import com.example.demo.repository.FertilizerRepository;
+import com.example.demo.entity.Crop;
+import com.example.demo.entity.Fertilizer;
+import com.example.demo.entity.Farm;
+import com.example.demo.entity.Suggestion;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.SuggestionRepository;
+import com.example.demo.service.CatalogService;
+import com.example.demo.service.FarmService;
 import com.example.demo.service.SuggestionService;
-
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+@Service
 public class SuggestionServiceImpl implements SuggestionService {
-
-    private final CropRepository cropRepository;
-    private final FertilizerRepository fertilizerRepository;
-
-    public SuggestionServiceImpl(
-            CropRepository cropRepository,
-            FertilizerRepository fertilizerRepository
-    ) {
-        this.cropRepository = cropRepository;
-        this.fertilizerRepository = fertilizerRepository;
-    }
-
-    @Override
-    public SuggestionResponse getSuggestion(Long farmId) {
-        return new SuggestionResponse();
-    }
+private final FarmService farmService;
+private final CatalogService catalogService;
+private final SuggestionRepository suggestionRepository;
+public SuggestionServiceImpl(FarmService farmService,
+CatalogService catalogService,
+SuggestionRepository suggestionRepository) {
+this.farmService = farmService;
+this.catalogService = catalogService;
+this.suggestionRepository = suggestionRepository;
+}
+@Override
+public Suggestion generateSuggestion(Long farmId) {
+Farm farm = farmService.getFarmById(farmId);
+List<Crop> crops = catalogService.findSuitableCrops(
+farm.getSoilPH(),
+farm.getWaterLevel(),
+farm.getSeason()
+);
+List<String> cropNames = crops.stream()
+.map(Crop::getName)
+.toList();
+List<Fertilizer> fertilizers =
+catalogService.findFertilizersForCrops(cropNames);
+String cropsCsv = String.join(",", cropNames);
+String fertCsv = fertilizers.stream()
+.map(Fertilizer::getName)
+.collect(Collectors.joining(","));
+Suggestion suggestion = Suggestion.builder()
+.farm(farm)
+.suggestedCrops(cropsCsv)
+.suggestedFertilizers(fertCsv)
+.build();
+return suggestionRepository.save(suggestion);
+}
+@Override
+public Suggestion getSuggestion(Long id) {
+return suggestionRepository.findById(id)
+.orElseThrow(() -> new ResourceNotFoundException("Suggestion not found"));
+}
 }
