@@ -1,5 +1,8 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
+import com.example.demo.entity.Farm;
 import com.example.demo.repository.FarmRepository;
 import com.example.demo.service.FarmService;
 
@@ -11,5 +14,8 @@ public class FarmServiceImpl implements FarmService {
         this.farmRepository = farmRepository;
     }
 
-    // implement ALL interface methods
+    @Override
+    public List<Farm> getFarmsByOwner(Long ownerId) {
+        return farmRepository.findAll();
+    }
 }
