@@ -1,14 +1,12 @@
 package com.example.demo.dto;
-
 import lombok.*;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class CropRequest {
-    private String name;
-    private double suitablePHMin;
-    private double suitablePHMax;
-    private double requiredWater;
-    private String season;
+private String name;
+private Double suitablePHMin;
+private Double suitablePHMax;
+private Double requiredWater;
+private String season;
 }
