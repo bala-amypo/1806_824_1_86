@@ -1,12 +1,33 @@
 package com.example.demo.dto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-
-@AllArgsConstructor @NoArgsConstructor @Data
 public class FertilizerRequest {
+
     private String name;
     private String npkRatio;
-    private String recommendedFor;
+    private String recommendedForCrops;
+
+    public FertilizerRequest() {
+    }
+
+    public FertilizerRequest(
+            String name,
+            String npkRatio,
+            String recommendedForCrops
+    ) {
+        this.name = name;
+        this.npkRatio = npkRatio;
+        this.recommendedForCrops = recommendedForCrops;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getNpkRatio() {
+        return npkRatio;
+    }
+
+    public String getRecommendedForCrops() {
+        return recommendedForCrops;
+    }
 }
