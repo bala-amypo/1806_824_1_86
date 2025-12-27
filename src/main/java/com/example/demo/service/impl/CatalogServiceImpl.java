@@ -28,10 +28,11 @@ public class CatalogServiceImpl implements CatalogService {
         return fertRepo.save(fertilizer);
     }
 
-    @Override
-    public List<Crop> findSuitableCrops(double soilPH, double water, String season) {
-        return cropRepo.findSuitableCrops(soilPH, water, season);
-    }
+  @Override
+public List<Crop> findSuitableCrops(double soilPH, double water, String season) {
+    return cropRepo.findSuitableCrops(soilPH, water, season);
+}
+
 
     @Override
     public List<Fertilizer> findFertilizersForCrops(List<String> crops) {
