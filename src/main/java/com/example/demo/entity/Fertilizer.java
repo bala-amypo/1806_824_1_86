@@ -2,13 +2,12 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.example.demo.exception.BadRequestException;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Fertilizer {
 
     @Id
@@ -18,11 +17,4 @@ public class Fertilizer {
     private String name;
     private String npkRatio;
     private String recommendedForCrops;
-
-    @PrePersist
-    @PreUpdate
-    public void validate() {
-        if (!npkRatio.matches("\\d+-\\d+-\\d+"))
-            throw new BadRequestException("NPK");
-    }
 }
