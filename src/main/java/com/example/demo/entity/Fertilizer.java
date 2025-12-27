@@ -1,12 +1,8 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import com.example.demo.exception.BadRequestException;
 
 @Entity
 @Data
@@ -21,7 +17,12 @@ public class Fertilizer {
 
     private String name;
     private String npkRatio;
-
-    // Stores recommended crops as a comma-separated string, e.g., "Wheat,Rice,Corn"
     private String recommendedForCrops;
+
+    @PrePersist
+    @PreUpdate
+    public void validate() {
+        if (!npkRatio.matches("\\d+-\\d+-\\d+"))
+            throw new BadRequestException("NPK");
+    }
 }

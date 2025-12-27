@@ -9,31 +9,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepository;
-    private final FertilizerRepository fertilizerRepository;
+    private final CropRepository cropRepo;
+    private final FertilizerRepository fertRepo;
 
-    public CatalogServiceImpl(CropRepository cropRepository,
-                              FertilizerRepository fertilizerRepository) {
-        this.cropRepository = cropRepository;
-        this.fertilizerRepository = fertilizerRepository;
+    public CatalogServiceImpl(CropRepository c, FertilizerRepository f){
+        this.cropRepo=c; this.fertRepo=f;
     }
 
-    @Override
-    public Crop addCrop(Crop crop) {
-        return cropRepository.save(crop);
+    public Crop addCrop(Crop c){ return cropRepo.save(c); }
+    public Fertilizer addFertilizer(Fertilizer f){ return fertRepo.save(f); }
+
+    public List<Crop> findSuitableCrops(Double ph, Double water, String season){
+        return cropRepo.findSuitableCrops(ph,water,season);
     }
 
-    @Override
-    public Fertilizer addFertilizer(Fertilizer fertilizer) {
-        return fertilizerRepository.save(fertilizer);
-    }
-
-    @Override
-    public List<Crop> findSuitableCrops(double min, double max, String season) {
-        return cropRepository.findSuitableCrops(min, max, season);
+    public List<Fertilizer> findFertilizersForCrops(List<String> crops){
+        if(crops==null||crops.isEmpty()) return List.of();
+        return fertRepo.findByCropName(crops.get(0));
     }
 }
-

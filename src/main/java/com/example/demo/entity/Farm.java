@@ -1,13 +1,7 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Data
@@ -15,14 +9,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Farm {
-    @Id @GeneratedValue
-    private Long id;
 
-    private String name;
-    private double soilPH;
-    private double waterLevel;
-    private String season;
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne
     private User owner;
+
+    private String name;
+    private Double soilPH;
+    private Double waterLevel;
+    private String season;
+
+    @PrePersist
+    public void validate() {
+        if (soilPH < 3 || soilPH > 10)
+            throw new IllegalArgumentException("pH");
+        if (!com.example.demo.util.ValidationUtil.validSeason(season))
+            throw new IllegalArgumentException("Invalid season");
+    }
 }

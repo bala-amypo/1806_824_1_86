@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -11,16 +12,18 @@ import lombok.*;
 public class Suggestion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
-
-    private String suggestedCrops;
 
     @ManyToOne
     private Farm farm;
 
+    private String suggestedCrops;
+    private String suggestedFertilizers;
+    private LocalDateTime createdAt;
+
     @PrePersist
     public void prePersist() {
-        // test only checks existence
+        createdAt = LocalDateTime.now();
     }
 }
