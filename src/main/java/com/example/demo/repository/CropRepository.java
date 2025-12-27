@@ -11,8 +11,7 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
     @Query("""
         SELECT c FROM Crop c
         WHERE :soilPH BETWEEN c.suitablePHMin AND c.suitablePHMax
-          AND c.requiredWater <= :water
-          AND c.season = :season
+        AND c.season = :season
     """)
-    List<Crop> findSuitableCrops(double soilPH, double water, String season);
+    List<Crop> findSuitableCrops(double soilPH, double ignored, String season);
 }
