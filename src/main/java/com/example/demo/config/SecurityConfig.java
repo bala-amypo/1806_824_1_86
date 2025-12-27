@@ -6,15 +6,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    // ✅ DEFINE JwtTokenProvider AS A BEAN
+    @Bean
+    public JwtTokenProvider jwtTokenProvider() {
+        return new JwtTokenProvider();
     }
 
-    // ✅ THIS FIXES THE ERROR
+    // ✅ DEFINE JwtAuthenticationFilter USING THE PROVIDER
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    public JwtAuthenticationFilter jwtAuthenticationFilter(
+            JwtTokenProvider jwtTokenProvider
+    ) {
         return new JwtAuthenticationFilter(jwtTokenProvider);
     }
 }
