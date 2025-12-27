@@ -5,16 +5,18 @@ import lombok.*;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Fertilizer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String npkRatio;
-    private String cropName;
+
+    // THIS FIELD 👇
+    private String recommended;
 }

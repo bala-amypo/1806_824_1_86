@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
 
-    List<Fertilizer> findByRecommendedForCropsContaining(String crop);
+    List<Fertilizer> findByRecommendedContaining(String crop);
 }

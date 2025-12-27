@@ -34,12 +34,10 @@ public List<Crop> findSuitableCrops(double soilPH, double water, String season) 
 }
 
 
-    @Override
-    public List<Fertilizer> findFertilizersForCrops(List<String> crops) {
-        List<Fertilizer> result = new ArrayList<>();
-        for (String crop : crops) {
-            result.addAll(fertRepo.findByRecommendedForCropsContaining(crop));
-        }
-        return result;
-    }
+@Override
+public List<Fertilizer> findFertilizersForCrops(List<String> crops) {
+    return crops.stream()
+            .flatMap(crop -> fertRepo.findByRecommendedContaining(crop).stream())
+            .distinct()
+            .toList();
 }
