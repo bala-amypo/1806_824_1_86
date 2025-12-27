@@ -15,3 +15,4 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
     """)
     List<Crop> findSuitableCrops(double soilPH, double ignored, String season);
 }
+
