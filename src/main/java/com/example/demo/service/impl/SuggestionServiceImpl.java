@@ -1,38 +1,52 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Crop;
+import com.example.demo.dto.SuggestionResponse;
+import com.example.demo.entity.Farm;
 import com.example.demo.entity.Fertilizer;
+import com.example.demo.entity.Crop;
+import com.example.demo.repository.FarmRepository;
 import com.example.demo.repository.CropRepository;
 import com.example.demo.repository.FertilizerRepository;
-import com.example.demo.service.CatalogService;
+import com.example.demo.service.SuggestionService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class CatalogServiceImpl implements CatalogService {
+public class SuggestionServiceImpl implements SuggestionService {
 
+    private final FarmRepository farmRepository;
     private final CropRepository cropRepository;
     private final FertilizerRepository fertilizerRepository;
 
-    public CatalogServiceImpl(CropRepository cropRepository,
-                              FertilizerRepository fertilizerRepository) {
+    public SuggestionServiceImpl(
+            FarmRepository farmRepository,
+            CropRepository cropRepository,
+            FertilizerRepository fertilizerRepository) {
+
+        this.farmRepository = farmRepository;
         this.cropRepository = cropRepository;
         this.fertilizerRepository = fertilizerRepository;
     }
 
-    // ================= CROPS =================
-
     @Override
-    public List<Crop> getCropsBySeason(String season) {
-        return cropRepository.findBySeason(season);
-    }
+public SuggestionResponse getSuggestion(Long farmId) {
 
-    // ================= FERTILIZERS =================
+    Farm farm = farmRepository.findById(farmId)
+            .orElseThrow(() -> new RuntimeException("Farm not found"));
 
-    @Override
-    public List<Fertilizer> getFertilizersForCrop(String cropName) {
-        return fertilizerRepository
-                .findByRecommendedForCropsContaining(cropName);
-    }
+    Crop crop = cropRepository.findBySeason(farm.getSeason())
+            .stream()
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("No crop found"));
+
+    Fertilizer fertilizer =
+            fertilizerRepository.findByRecommendedForCropsContaining(crop.getName())
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("No fertilizer found"));
+
+    return new SuggestionResponse(
+            crop.getName(),
+            fertilizer.getName(),
+            fertilizer.getNpkRatio()
+    );
 }
