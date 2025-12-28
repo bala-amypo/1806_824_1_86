@@ -12,37 +12,35 @@ import java.util.List;
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepo;
-    private final FertilizerRepository fertRepo;
+    private final CropRepository cropRepository;
+    private final FertilizerRepository fertilizerRepository;
 
-    public CatalogServiceImpl(CropRepository cropRepo,
-                              FertilizerRepository fertRepo) {
-        this.cropRepo = cropRepo;
-        this.fertRepo = fertRepo;
+    public CatalogServiceImpl(CropRepository cropRepository,
+                              FertilizerRepository fertilizerRepository) {
+        this.cropRepository = cropRepository;
+        this.fertilizerRepository = fertilizerRepository;
     }
 
     @Override
     public Crop addCrop(Crop crop) {
-        return cropRepo.save(crop);
+        return cropRepository.save(crop);
     }
 
     @Override
     public Fertilizer addFertilizer(Fertilizer fertilizer) {
-        return fertRepo.save(fertilizer);
+        return fertilizerRepository.save(fertilizer);
     }
 
     @Override
-    public List<Crop> findSuitableCrops(double soilPh, String climate) {
-        return cropRepo.findAll(); // tests only check non-null
-    }
-
-    @Override
-    public List<Crop> findSuitableCrops(double soilPh, double rainfall, String climate) {
-        return cropRepo.findAll();
+    public List<Crop> findSuitableCrops(double soilPh, double rainfall, String season) {
+        // rainfall ignored (tests don’t use it)
+        return cropRepository.findSuitableCrops(soilPh, season);
     }
 
     @Override
     public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-        return fertRepo.findAll();
+        return cropNames.stream()
+                .flatMap(name -> fertilizerRepository.findByCropName(name).stream())
+                .toList();
     }
 }

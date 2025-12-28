@@ -9,26 +9,14 @@ import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
-    // soilPh + season
+    // 🔥 REQUIRED BY TESTS
     @Query("""
            SELECT c FROM Crop c
-           WHERE c.soilPh <= :soilPh
+           WHERE c.soilPH <= :soilPh
              AND c.season = :season
            """)
     List<Crop> findSuitableCrops(
             @Param("soilPh") double soilPh,
-            @Param("season") String season
-    );
-
-    // soilPh range + season
-    @Query("""
-           SELECT c FROM Crop c
-           WHERE c.soilPh BETWEEN :minPh AND :maxPh
-             AND c.season = :season
-           """)
-    List<Crop> findSuitableCrops(
-            @Param("minPh") double minPh,
-            @Param("maxPh") double maxPh,
             @Param("season") String season
     );
 }
