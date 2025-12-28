@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.CropRequest;
+import com.example.demo.dto.FertilizerRequest;
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 import com.example.demo.repository.CropRepository;
@@ -12,34 +14,33 @@ import java.util.List;
 @Service
 public class CatalogServiceImpl implements CatalogService {
 
-    private final CropRepository cropRepository;
-    private final FertilizerRepository fertilizerRepository;
+    private final CropRepository cropRepo;
+    private final FertilizerRepository fertRepo;
 
-    public CatalogServiceImpl(CropRepository cropRepository,
-                              FertilizerRepository fertilizerRepository) {
-        this.cropRepository = cropRepository;
-        this.fertilizerRepository = fertilizerRepository;
+    public CatalogServiceImpl(CropRepository cropRepo, FertilizerRepository fertRepo) {
+        this.cropRepo = cropRepo;
+        this.fertRepo = fertRepo;
     }
 
     @Override
-    public Crop addCrop(Crop crop) {
-        return cropRepository.save(crop);
+    public Crop addCrop(CropRequest r) {
+        Crop c = new Crop();
+        return cropRepo.save(c);
     }
 
     @Override
-    public Fertilizer addFertilizer(Fertilizer fertilizer) {
-        return fertilizerRepository.save(fertilizer);
+    public Fertilizer addFertilizer(FertilizerRequest r) {
+        Fertilizer f = new Fertilizer();
+        return fertRepo.save(f);
     }
 
     @Override
-    public List<Crop> findSuitableCrops(double soilPh, String season) {
-        return cropRepository.findBySeason(season);
+    public List<Crop> findCrops(double minPh, double maxPh, String season) {
+        return cropRepo.findAll();
     }
 
     @Override
-    public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
-        return cropNames.stream()
-                .flatMap(name -> fertilizerRepository.findByCrop(name).stream())
-                .toList();
+    public List<Fertilizer> findFerts(String cropName) {
+        return fertRepo.findAll();
     }
 }

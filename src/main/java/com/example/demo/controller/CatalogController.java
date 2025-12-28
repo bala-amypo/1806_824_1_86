@@ -20,11 +20,23 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
 
-    @GetMapping("/crops/suitable")
-    public List<Crop> findSuitableCrops(
-            @RequestParam double soilPh,
-            @RequestParam String season) {
+    @PostMapping("/crop")
+    public Crop addCrop(CropRequest req, Authentication auth) {
+        return catalogService.addCrop(req);
+    }
 
-        return catalogService.findSuitableCrops(soilPh, season);
+    @PostMapping("/fertilizer")
+    public Fertilizer addFertilizer(FertilizerRequest req, Authentication auth) {
+        return catalogService.addFertilizer(req);
+    }
+
+    @GetMapping("/crops")
+    public List<Crop> findCrops(double minPh, double maxPh, String season) {
+        return catalogService.findCrops(minPh, maxPh, season);
+    }
+
+    @GetMapping("/fertilizers")
+    public List<Fertilizer> findFerts(String cropName) {
+        return catalogService.findFerts(cropName);
     }
 }

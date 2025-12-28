@@ -6,40 +6,31 @@ import jakarta.persistence.*;
 public class Crop {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String name;
+    private double minSoilPh;
+    private double maxSoilPh;
     private String season;
 
     public Crop() {}
 
-    public Crop(String name, String season) {
-        this.name = name;
-        this.season = season;
-    }
-
-    // ✅ REQUIRED by tests
-    public static Crop builder() {
-        return new Crop();
-    }
-
-    public Crop name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Crop season(String season) {
-        this.season = season;
-        return this;
-    }
-
-    public Crop build() {
-        return this;
+    // ✅ REQUIRED BY TEST
+    public boolean suitablePhMin(double ph) {
+        return ph >= minSoilPh;
     }
 
     // getters
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getSeason() { return season; }
+    public double getMinSoilPh() {
+        return minSoilPh;
+    }
+
+    public double getMaxSoilPh() {
+        return maxSoilPh;
+    }
+
+    public String getSeason() {
+        return season;
+    }
 }

@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.SuggestionResponse;
+import com.example.demo.entity.Suggestion;
 
 public interface SuggestionService {
-
-    // ✅ tests expect this
-    SuggestionResponse generateSuggestion(long farmId);
+    Suggestion generate(long cropId);
+    Suggestion getSuggestion(long id);
 }
