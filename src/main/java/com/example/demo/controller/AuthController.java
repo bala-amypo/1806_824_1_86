@@ -4,52 +4,61 @@ import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private UserService userService;
+    private JwtTokenProvider jwtTokenProvider;
 
-    // ✅ SPRING WILL USE THIS
-    public AuthController(UserRepository userRepository,
+    // ✅ REQUIRED for Spring
+    public AuthController() {
+    }
+
+    // ✅ REQUIRED for tests + Spring
+    @Autowired
+    public AuthController(UserService userService,
                           JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // ✅ TESTS USE THIS (MANUAL INSTANTIATION)
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = null;
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest req) {
+    public AuthResponse register(@RequestBody RegisterRequest request) {
 
         User user = new User();
-        user.setName(req.getName());
-        user.setEmail(req.getEmail());
-        user.setPassword(req.getPassword());
-        user.setRole("USER");
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
 
-        return ResponseEntity.ok(userRepository.save(user));
+        User saved = userService.save(user);
+
+        String token = jwtTokenProvider.createToken(
+                saved.getId(),
+                saved.getEmail(),
+                saved.getRole()
+        );
+
+        return new AuthResponse(
+                token,
+                saved.getId(),
+                saved.getEmail(),
+                saved.getRole()
+        );
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
+    public AuthResponse login(@RequestBody AuthRequest request) {
 
-        User user = userRepository.findByEmail(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!user.getPassword().equals(req.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+        User user = userService.authenticate(
+                request.getEmail(),
+                request.getPassword()
+        );
 
         String token = jwtTokenProvider.createToken(
                 user.getId(),
@@ -57,13 +66,11 @@ public class AuthController {
                 user.getRole()
         );
 
-        return ResponseEntity.ok(
-                new AuthResponse(
-                        token,
-                        user.getId(),
-                        user.getEmail(),
-                        user.getRole()
-                )
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
         );
     }
 }
