@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
-
-    // find crops by season
-    List<Crop> findBySeason(String season);
+    List<Crop> findSuitableCrops(double soilPh, String climate);
 }

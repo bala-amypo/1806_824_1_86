@@ -5,17 +5,17 @@ import com.example.demo.service.SuggestionService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/suggestion")
+@RequestMapping("/suggestions")
 public class SuggestionController {
 
-    private final SuggestionService suggestionService;
+    private final SuggestionService service;
 
-    public SuggestionController(SuggestionService suggestionService) {
-        this.suggestionService = suggestionService;
+    public SuggestionController(SuggestionService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{farmId}")
-    public SuggestionResponse generate(@PathVariable Long farmId) {
-        return suggestionService.getSuggestion(farmId);
+    @GetMapping("/{id}")
+    public SuggestionResponse getSuggestion(@PathVariable Long id) {
+        return service.generateSuggestion(id);
     }
 }
