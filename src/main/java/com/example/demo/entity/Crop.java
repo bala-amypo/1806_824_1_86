@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 public class Crop {
@@ -10,31 +12,40 @@ public class Crop {
     private Long id;
 
     private String name;
-    private double minSoilPh;
-    private double maxSoilPh;
     private String season;
+    private double soilPH;
 
-    public Crop() {}
+    // ===== getters & setters =====
 
-    // ✅ REQUIRED BY TEST
-    public boolean suitablePhMin(double ph) {
-        return ph >= minSoilPh;
+    public Long getId() {
+        return id;
     }
 
-    // getters
-    public double getMinSoilPh() {
-        return minSoilPh;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public double getMaxSoilPh() {
-        return maxSoilPh;
+    public String getName() {
+        return name;
     }
-    public static Crop builder() {
-    return new Crop();
-}
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getSeason() {
         return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public double getSoilPH() {
+        return soilPH;
+    }
+
+    public void setSoilPH(double soilPH) {
+        this.soilPH = soilPH;
     }
 }
