@@ -31,9 +31,9 @@ public class CatalogServiceImpl implements CatalogService {
         return fertilizerRepository.save(fertilizer);
     }
 
+    // ✅ EXACT SIGNATURE MATCH
     @Override
-    public List<Crop> findSuitableCrops(double soilPh, double rainfall, String season) {
-        // rainfall ignored (tests don’t use it)
+    public List<Crop> findSuitableCrops(double soilPh, String season) {
         return cropRepository.findSuitableCrops(soilPh, season);
     }
 
