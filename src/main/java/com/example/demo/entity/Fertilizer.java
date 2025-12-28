@@ -28,6 +28,10 @@ public class Fertilizer {
         this.recommendedForCrops = crops;
         return this;
     }
+    public static Fertilizer builder() {
+    return new Fertilizer();
+}
+
 
     public Fertilizer build() {
         return this;

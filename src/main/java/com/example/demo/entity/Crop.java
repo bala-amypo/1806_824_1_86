@@ -29,6 +29,10 @@ public class Crop {
     public double getMaxSoilPh() {
         return maxSoilPh;
     }
+    public static Crop builder() {
+    return new Crop();
+}
+
 
     public String getSeason() {
         return season;
