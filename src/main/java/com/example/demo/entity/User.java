@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {
@@ -13,7 +15,6 @@ public class User {
     private String password;
     private String role;
 
-    // ===== getters =====
     public Long getId() {
         return id;
     }
@@ -22,17 +23,8 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getRole() {
         return role;
-    }
-
-    // ===== setters =====
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setEmail(String email) {
