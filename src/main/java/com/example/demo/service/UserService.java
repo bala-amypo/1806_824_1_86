@@ -6,6 +6,8 @@ public interface UserService {
 
     User save(User user);
 
-    // ✅ REQUIRED by tests
     User findByEmail(String email);
+
+    // ✅ REQUIRED by AuthController
+    User authenticate(String email, String password);
 }
