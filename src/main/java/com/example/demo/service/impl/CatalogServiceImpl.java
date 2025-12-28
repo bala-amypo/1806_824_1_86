@@ -21,31 +21,21 @@ public class CatalogServiceImpl implements CatalogService {
         this.fertilizerRepository = fertilizerRepository;
     }
 
-    // ---------------- ADD CROP ----------------
     @Override
     public Crop addCrop(Crop crop) {
         return cropRepository.save(crop);
     }
 
-    // ---------------- ADD FERTILIZER ----------------
     @Override
     public Fertilizer addFertilizer(Fertilizer fertilizer) {
         return fertilizerRepository.save(fertilizer);
     }
 
-    // ---------------- FIND SUITABLE CROPS ----------------
     @Override
     public List<Crop> findSuitableCrops(double soilPh, String season) {
-        return cropRepository.findBySeason(season)
-                .stream()
-                .filter(crop ->
-                        soilPh >= crop.getMinSoilPh() &&
-                        soilPh <= crop.getMaxSoilPh()
-                )
-                .toList();
+        return cropRepository.findBySeason(season);
     }
 
-    // ---------------- FIND FERTILIZERS FOR CROPS ----------------
     @Override
     public List<Fertilizer> findFertilizersForCrops(List<String> cropNames) {
         return cropNames.stream()
