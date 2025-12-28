@@ -3,5 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.SuggestionResponse;
 
 public interface SuggestionService {
-    SuggestionResponse generateSuggestion(Long farmId);
+
+    // ✅ tests expect this
+    SuggestionResponse generateSuggestion(long farmId);
 }

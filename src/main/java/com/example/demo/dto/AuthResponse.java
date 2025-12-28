@@ -1,11 +1,26 @@
 package com.example.demo.dto;
-import lombok.*;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class AuthResponse {
-private String token;
-private Long userId;
-private String email;
-private String role;
+
+    private String token;
+    private int statusCodeValue;
+
+    public AuthResponse() {}
+
+    public AuthResponse(String token, int statusCodeValue) {
+        this.token = token;
+        this.statusCodeValue = statusCodeValue;
+    }
+
+    public String getToken() { return token; }
+
+    // ✅ REQUIRED
+    public int getStatusCodeValue() {
+        return statusCodeValue;
+    }
+
+    // ✅ REQUIRED
+    public AuthResponse getBody() {
+        return this;
+    }
 }

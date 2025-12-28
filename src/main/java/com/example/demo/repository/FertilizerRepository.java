@@ -7,5 +7,11 @@ import java.util.List;
 
 public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
 
-    List<Fertilizer> findByCrop(String crop);
+    // ✅ REQUIRED by tests
+    default List<Fertilizer> findByCrop(String cropName) {
+        return findAll().stream()
+                .filter(f -> f.getRecommendedForCrops() != null &&
+                             f.getRecommendedForCrops().contains(cropName))
+                .toList();
+    }
 }

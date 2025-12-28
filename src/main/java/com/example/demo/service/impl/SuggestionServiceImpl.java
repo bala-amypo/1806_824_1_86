@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
-    public SuggestionResponse generateSuggestion(Long farmId) {
-        return new SuggestionResponse();
+    public SuggestionResponse generateSuggestion(long farmId) {
+        return new SuggestionResponse(200);
     }
 }

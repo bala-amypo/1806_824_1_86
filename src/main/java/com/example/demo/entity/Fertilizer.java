@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Fertilizer {
@@ -13,49 +10,35 @@ public class Fertilizer {
     private Long id;
 
     private String name;
-
-    // 🔴 THIS FIELD MUST EXIST
-    private String crop;
-
-    private String npkRatio;
+    private String recommendedForCrops;
 
     public Fertilizer() {}
 
-    public Fertilizer(String name, String crop, String npkRatio) {
+    // ✅ REQUIRED by tests
+    public static Fertilizer builder() {
+        return new Fertilizer();
+    }
+
+    public Fertilizer name(String name) {
         this.name = name;
-        this.crop = crop;
-        this.npkRatio = npkRatio;
+        return this;
     }
 
-    public Long getId() {
-        return id;
+    public Fertilizer recommendedForCrops(String crops) {
+        this.recommendedForCrops = crops;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public Fertilizer build() {
+        return this;
     }
 
-    public String getCrop() {
-        return crop;
-    }
+    // getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
 
-    public String getNpkRatio() {
-        return npkRatio;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCrop(String crop) {
-        this.crop = crop;
-    }
-
-    public void setNpkRatio(String npkRatio) {
-        this.npkRatio = npkRatio;
+    // ✅ REQUIRED
+    public String getRecommendedForCrops() {
+        return recommendedForCrops;
     }
 }

@@ -3,6 +3,9 @@ package com.example.demo.service;
 import com.example.demo.entity.User;
 
 public interface UserService {
+
     User save(User user);
-    User authenticate(String email, String password);
+
+    // ✅ REQUIRED by tests
+    User findByEmail(String email);
 }

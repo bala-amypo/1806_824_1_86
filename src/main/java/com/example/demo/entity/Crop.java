@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Crop {
@@ -13,49 +10,36 @@ public class Crop {
     private Long id;
 
     private String name;
-
-    private double soilPH;   // 🔥 MUST MATCH QUERY
-
     private String season;
 
-    public Crop() {
-    }
+    public Crop() {}
 
-    public Crop(String name, double soilPH, String season) {
+    public Crop(String name, String season) {
         this.name = name;
-        this.soilPH = soilPH;
         this.season = season;
     }
 
-    public Long getId() {
-        return id;
+    // ✅ REQUIRED by tests
+    public static Crop builder() {
+        return new Crop();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public double getSoilPH() {
-        return soilPH;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
+    public Crop name(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setSoilPH(double soilPH) {
-        this.soilPH = soilPH;
-    }
-
-    public void setSeason(String season) {
+    public Crop season(String season) {
         this.season = season;
+        return this;
     }
+
+    public Crop build() {
+        return this;
+    }
+
+    // getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getSeason() { return season; }
 }

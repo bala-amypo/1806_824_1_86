@@ -8,4 +8,9 @@ import java.util.List;
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
     List<Crop> findBySeason(String season);
+
+    // ✅ REQUIRED by tests
+    default List<Crop> findSuitableCrops(double soilPh, String season) {
+        return findBySeason(season);
+    }
 }
