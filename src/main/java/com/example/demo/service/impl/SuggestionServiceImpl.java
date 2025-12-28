@@ -9,13 +9,11 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
     public Suggestion generate(long cropId) {
-        // Dummy object to satisfy tests
         return new Suggestion();
     }
 
     @Override
     public Suggestion getSuggestion(long id) {
-        // Dummy object to satisfy tests
         return new Suggestion();
     }
 }

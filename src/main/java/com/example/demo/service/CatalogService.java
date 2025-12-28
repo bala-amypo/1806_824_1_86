@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.CropRequest;
-import com.example.demo.dto.FertilizerRequest;
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 
@@ -9,11 +7,13 @@ import java.util.List;
 
 public interface CatalogService {
 
-    Crop addCrop(CropRequest request);
+    Crop addCrop(Crop crop);
 
-    Fertilizer addFertilizer(FertilizerRequest request);
+    Fertilizer addFertilizer(Fertilizer fertilizer);
 
-    List<Crop> findCrops(double minPh, double maxPh, String season);
+    List<Crop> findSuitableCrops(double soilPh, String season);
 
-    List<Fertilizer> findFerts(String cropName);
+    List<Crop> findSuitableCrops(double minPh, double maxPh, String season);
+
+    List<Fertilizer> findFertilizersForCrops(List<String> cropNames);
 }
