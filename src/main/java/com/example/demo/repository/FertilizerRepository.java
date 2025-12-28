@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface FertilizerRepository extends JpaRepository<Fertilizer, Long> {
 
-    // 🔥 REQUIRED BY TESTS
-    List<Fertilizer> findByCropName(String cropName);
+    List<Fertilizer> findByCrop(String crop);
 }
