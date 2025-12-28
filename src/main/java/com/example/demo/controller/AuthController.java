@@ -6,7 +6,6 @@ import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +16,17 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    // ✅ TEST EXPECTS THIS CONSTRUCTOR SIGNATURE
-    public AuthController(UserRepository userRepository) {
+    // ✅ SPRING WILL USE THIS
+    public AuthController(UserRepository userRepository,
+                          JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
-        this.jwtTokenProvider = null; // not used in register test
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // ✅ ALSO REQUIRED BY OTHER TESTS
-    public AuthController(UserService userService,
-                          JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = null;
-        this.jwtTokenProvider = jwtTokenProvider;
+    // ✅ TESTS USE THIS (MANUAL INSTANTIATION)
+    public AuthController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = null;
     }
 
     @PostMapping("/register")
