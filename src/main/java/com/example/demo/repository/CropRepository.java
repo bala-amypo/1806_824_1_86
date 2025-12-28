@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
+    // find crops by season
     List<Crop> findBySeason(String season);
 }

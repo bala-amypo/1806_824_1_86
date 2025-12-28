@@ -1,51 +1,38 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.SuggestionResponse;
-import com.example.demo.entity.Farm;
-import com.example.demo.entity.Fertilizer;
 import com.example.demo.entity.Crop;
-import com.example.demo.repository.FarmRepository;
+import com.example.demo.entity.Fertilizer;
 import com.example.demo.repository.CropRepository;
 import com.example.demo.repository.FertilizerRepository;
-import com.example.demo.service.SuggestionService;
+import com.example.demo.service.CatalogService;
 import org.springframework.stereotype.Service;
 
-@Service
-public class SuggestionServiceImpl implements SuggestionService {
+import java.util.List;
 
-    private final FarmRepository farmRepository;
+@Service
+public class CatalogServiceImpl implements CatalogService {
+
     private final CropRepository cropRepository;
     private final FertilizerRepository fertilizerRepository;
 
-    public SuggestionServiceImpl(
-            FarmRepository farmRepository,
-            CropRepository cropRepository,
-            FertilizerRepository fertilizerRepository) {
-
-        this.farmRepository = farmRepository;
+    public CatalogServiceImpl(CropRepository cropRepository,
+                              FertilizerRepository fertilizerRepository) {
         this.cropRepository = cropRepository;
         this.fertilizerRepository = fertilizerRepository;
     }
 
+    // ================= CROPS =================
+
     @Override
-    public SuggestionResponse getSuggestion(Long farmId) {
+    public List<Crop> getCropsBySeason(String season) {
+        return cropRepository.findBySeason(season);
+    }
 
-        Farm farm = farmRepository.findById(farmId)
-                .orElseThrow(() -> new RuntimeException("Farm not found"));
+    // ================= FERTILIZERS =================
 
-        Crop crop = cropRepository.findSuitableCrop(
-                farm.getSoilPH(),
-                farm.getWaterLevel(),
-                farm.getSeason()
-        );
-
-        Fertilizer fertilizer =
-                fertilizerRepository.findBestForCrop(crop.getName());
-
-        return new SuggestionResponse(
-                crop.getName(),
-                fertilizer.getName(),
-                fertilizer.getNpkRatio()
-        );
+    @Override
+    public List<Fertilizer> getFertilizersForCrop(String cropName) {
+        return fertilizerRepository
+                .findByRecommendedForCropsContaining(cropName);
     }
 }
