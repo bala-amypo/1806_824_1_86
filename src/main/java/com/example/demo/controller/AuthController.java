@@ -36,10 +36,11 @@ this.passwordEncoder = passwordEncoder;
 }
 @PostMapping("/register")
 public ResponseEntity<User> register(@RequestBody RegisterRequest req) {
-User user = User.builder()
-.name(req.getName())
-.email(req.getEmail())
-.password(req.getPassword())
+User user = new User();
+user.setName(req.getName());
+user.setEmail(req.getEmail());
+user.setPassword(req.getPassword());
+
 .build();
 return ResponseEntity.ok(userService.register(user));
 }
