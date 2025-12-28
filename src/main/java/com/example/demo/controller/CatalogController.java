@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CropRequest;
+import com.example.demo.dto.FertilizerRequest;
 import com.example.demo.entity.Crop;
 import com.example.demo.entity.Fertilizer;
 import com.example.demo.service.CatalogService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +20,23 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
 
-    // ================= CROPS =================
-
-    @GetMapping("/crops/{season}")
-    public List<Crop> getCropsBySeason(@PathVariable String season) {
-        return catalogService.getCropsBySeason(season);
+    @PostMapping("/crop")
+    public void addCrop(CropRequest req, Authentication auth) {
+        Crop crop = new Crop();
+        catalogService.addCrop(crop);
     }
 
-    // ================= FERTILIZERS =================
+    @PostMapping("/fertilizer")
+    public void addFertilizer(FertilizerRequest req, Authentication auth) {
+        Fertilizer fert = new Fertilizer();
+        catalogService.addFertilizer(fert);
+    }
 
-    @GetMapping("/fertilizers/{cropName}")
-    public List<Fertilizer> getFertilizersForCrop(
-            @PathVariable String cropName) {
+    public List<Crop> findCrops(double soil, double water, String season) {
+        return catalogService.findSuitableCrops(soil, water, season);
+    }
 
-        return catalogService.getFertilizersForCrop(cropName);
+    public List<Fertilizer> findFerts(String crop) {
+        return catalogService.findFertilizersForCrops(List.of(crop));
     }
 }

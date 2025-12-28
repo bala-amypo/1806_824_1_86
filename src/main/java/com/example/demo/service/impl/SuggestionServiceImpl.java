@@ -16,7 +16,8 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public SuggestionResponse generateSuggestion(long farmId) {
+    public SuggestionResponse getSuggestion(Long farmId) {
+
         Farm farm = farmRepository.findById(farmId)
                 .orElseThrow(() -> new RuntimeException("Farm not found"));
 
