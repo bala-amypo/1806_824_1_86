@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface CatalogService {
 
-    List<Crop> getCropsBySeason(String season);
+    void addCrop(Crop crop);
+    void addFertilizer(Fertilizer fertilizer);
 
-    List<Fertilizer> getFertilizersForCrop(String cropName);
+    List<Crop> findSuitableCrops(double soilPH, String season);
+    List<Crop> findSuitableCrops(double soilPH, double water, String season);
+
+    List<Fertilizer> findFertilizersForCrops(List<String> cropNames);
 }

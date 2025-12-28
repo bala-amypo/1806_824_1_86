@@ -4,5 +4,6 @@ import com.example.demo.dto.SuggestionResponse;
 
 public interface SuggestionService {
 
-    SuggestionResponse getSuggestion(Long farmId);
+    // 🔴 TEST EXPECTS THIS NAME
+    SuggestionResponse generateSuggestion(long farmId);
 }
