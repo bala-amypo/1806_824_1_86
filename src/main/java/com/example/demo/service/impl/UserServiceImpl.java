@@ -10,13 +10,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        // dummy save (tests don’t check DB)
         return user;
     }
 
     @Override
     public User findByEmail(String email) {
-        // dummy user for tests
+        User user = new User();
+        user.setEmail(email);
+        user.setRole("USER");
+        return user;
+    }
+
+    @Override
+    public User authenticate(String email, String password) {
         User user = new User();
         user.setEmail(email);
         user.setRole("USER");

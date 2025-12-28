@@ -10,9 +10,22 @@ public class Fertilizer {
     private Long id;
 
     private String name;
+    private String npkRatio;
     private String recommendedForCrops;
 
-    public static Fertilizer builder() {
-        return new Fertilizer();
+    public String getRecommendedForCrops() {
+        return recommendedForCrops;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNpkRatio(String npkRatio) {
+        this.npkRatio = npkRatio;
+    }
+
+    public void setRecommendedForCrops(String recommendedForCrops) {
+        this.recommendedForCrops = recommendedForCrops;
     }
 }

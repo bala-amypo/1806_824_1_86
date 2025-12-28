@@ -7,4 +7,7 @@ public interface UserService {
     User save(User user);
 
     User findByEmail(String email);
+
+    // ✅ ADD THIS
+    User authenticate(String email, String password);
 }
