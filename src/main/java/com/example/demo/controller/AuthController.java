@@ -16,11 +16,11 @@ public class AuthController {
     private UserService userService;
     private JwtTokenProvider jwtTokenProvider;
 
-    // ✅ REQUIRED for Spring
+    // ✅ REQUIRED by Spring (do NOT remove)
     public AuthController() {
     }
 
-    // ✅ REQUIRED for tests + Spring
+    // ✅ Used by Spring & tests
     @Autowired
     public AuthController(UserService userService,
                           JwtTokenProvider jwtTokenProvider) {
@@ -28,30 +28,32 @@ public class AuthController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    // ================= REGISTER =================
     @PostMapping("/register")
     public AuthResponse register(@RequestBody RegisterRequest request) {
 
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        user.setRole("USER"); // ✅ role is NOT in RegisterRequest
 
-        User saved = userService.save(user);
+        User savedUser = userService.save(user);
 
         String token = jwtTokenProvider.createToken(
-                saved.getId(),
-                saved.getEmail(),
-                saved.getRole()
+                savedUser.getId(),
+                savedUser.getEmail(),
+                savedUser.getRole()
         );
 
         return new AuthResponse(
                 token,
-                saved.getId(),
-                saved.getEmail(),
-                saved.getRole()
+                savedUser.getId(),
+                savedUser.getEmail(),
+                savedUser.getRole()
         );
     }
 
+    // ================= LOGIN =================
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
