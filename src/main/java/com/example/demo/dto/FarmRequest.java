@@ -1,11 +1,25 @@
 package com.example.demo.dto;
-import lombok.*;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class FarmRequest {
-private String name;
-private Double soilPH;
-private Double waterLevel;
-private String season;
+
+    private String name;
+    private double soilPH;
+    private String waterLevel;
+    private String season;
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSoilPH() {
+        return soilPH;
+    }
+
+    public String getWaterLevel() {
+        return waterLevel;
+    }
+
+    public String getSeason() {
+        return season;
+    }
 }
