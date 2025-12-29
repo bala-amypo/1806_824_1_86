@@ -14,6 +14,8 @@ public class JwtTokenProvider {
     private static final String SECRET =
             "SecretKeyForJWTTokenGenerationThatIsAtLeast32CharactersLong12345";
 
+    private static final long EXPIRATION_TIME = 86400000; // 1 day
+
     private final SecretKey key =
             Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
@@ -26,7 +28,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
