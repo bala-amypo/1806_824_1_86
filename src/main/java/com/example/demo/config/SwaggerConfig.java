@@ -13,8 +13,12 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
+    /**
+     * IMPORTANT:
+     * Auto-generated tests expect a method named `api()`
+     */
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI api() {
 
         // Define Bearer Authentication
         SecurityScheme bearerAuth = new SecurityScheme()
